@@ -1,0 +1,5 @@
+.DS_Store
+
+# Staging area for unpublished notes — deliberately untracked so nothing
+# reaches this public repo before it has been rewritten and reviewed.
+drafts/
