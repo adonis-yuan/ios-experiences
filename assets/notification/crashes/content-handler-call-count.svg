@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="742" viewBox="0 0 1060 742" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .lane{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .msg{font-size:12px;fill:#26303c}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#a5281b}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#aha)}
+    .lnr{stroke:#c0392b;stroke-width:2;fill:none;marker-end:url(#ahr)}
+    .blocked{stroke:#c0392b;stroke-width:1.8;stroke-dasharray:6 4;fill:none}
+    .x{stroke:#c0392b;stroke-width:2.4;fill:none}
+    .life{stroke:#b8c1cc;stroke-width:1.2;stroke-dasharray:3 4}
+  </style>
+  <rect width="1060" height="742" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">Notification Service Extension: contentHandler must be called exactly once</text>
+  <text class="sub" x="34" y="55">Two entry points can reach the same handler. Neither miscall reports an error.</text>
+
+  <rect x="34" y="72" width="212" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="140" y="95" text-anchor="middle">System / APNS</text>
+  <rect x="374" y="72" width="248" height="36" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="498" y="95" text-anchor="middle">Extension — main queue</text>
+  <rect x="768" y="72" width="252" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="894" y="95" text-anchor="middle">Download / logging work</text>
+
+  <line class="life" x1="140" y1="112" x2="140" y2="486"/>
+  <line class="life" x1="498" y1="112" x2="498" y2="486"/>
+  <line class="life" x1="894" y1="112" x2="894" y2="486"/>
+
+  <line class="ln" x1="140" y1="140" x2="492" y2="140"/>
+  <text class="mono" x="150" y="134">didReceive(request:withContentHandler:)</text>
+
+  <line class="ln" x1="498" y1="184" x2="888" y2="184"/>
+  <text class="mono" x="510" y="178">dispatch_group_enter() × N</text>
+
+  <line class="ln" x1="894" y1="226" x2="504" y2="226"/>
+  <text class="mono" x="640" y="220">leave() — attachment ready</text>
+
+  <line class="blocked" x1="888" y1="274" x2="726" y2="274"/>
+  <line class="x" x1="712" y1="266" x2="728" y2="282"/>
+  <line class="x" x1="728" y1="266" x2="712" y2="282"/>
+  <text class="monor" x="700" y="268" text-anchor="end">leave() never called</text>
+  <text class="tag" x="700" y="288" text-anchor="end" fill="#a5281b">AN ERROR BRANCH RETURNED EARLY</text>
+
+  <rect x="374" y="318" width="248" height="30" rx="4" fill="#e3f1e6" stroke="#8fbf9a"/>
+  <text class="mono" x="498" y="338" text-anchor="middle">group_notify → contentHandler()</text>
+  <text class="tag" x="640" y="338" fill="#2f7a42">CALL #1</text>
+
+  <line class="lnd" x1="140" y1="386" x2="492" y2="386"/>
+  <text class="mono" x="150" y="380">serviceExtensionTimeWillExpire()</text>
+  <text class="sub" x="150" y="400">system-initiated, ~30 s budget</text>
+
+  <rect x="374" y="418" width="248" height="30" rx="4" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="monor" x="498" y="438" text-anchor="middle">contentHandler(bestAttempt)</text>
+  <text class="tag" x="640" y="438" fill="#a5281b">CALL #2</text>
+
+  <rect x="34" y="506" width="480" height="76" rx="6" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="50" y="528">Both paths run → 2 calls</text>
+  <text class="k" x="50" y="548">The extension process crashes. Extensions usually have no crash</text>
+  <text class="k" x="50" y="566">reporter attached, so this leaves no trace anywhere.</text>
+
+  <rect x="540" y="506" width="486" height="76" rx="6" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="kb" x="556" y="528">A leave() is skipped → 0 calls before the deadline</text>
+  <text class="k" x="556" y="548">notify never fires; only the expiry path runs. The user still gets the</text>
+  <text class="k" x="556" y="566">push — carrying the unmodified original payload.</text>
+
+  <line x1="34" y1="606" x2="1026" y2="606" stroke="#d5dce4"/>
+  <text class="kb" x="34" y="632">What the picture is for</text>
+  <text class="k" x="34" y="654">• Both entry points run on the main queue: they are serial, so this is not a data race and thread sanitizers will not find it.</text>
+  <text class="k" x="34" y="676">• Degrading to the original content does not reclaim the process — a notify block already queued still executes afterwards.</text>
+  <text class="k" x="34" y="698">• A single exit guarded by an atomic test-and-set caps the count at one. It does nothing about the zero-call case.</text>
+  <text class="k" x="34" y="720">• Solid = normal flow · dashed amber = system-initiated fallback · red = the defect.</text>
+</svg>
