@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="700" viewBox="0 0 1060 700" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="au" markerWidth="9" markerHeight="9" refX="4" refY="1" orient="auto"><path d="M0,8 L4,0 L8,8 z" fill="#8b95a1"/></marker>
+    <marker id="ad" markerWidth="9" markerHeight="9" refX="4" refY="7" orient="auto"><path d="M0,0 L4,8 L8,0 z" fill="#8b95a1"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .bl{font-size:13px;font-weight:700}
+    .bs{font-size:11px}
+    .ax{font-size:12px;font-weight:700;fill:#3c4653}
+    .axs{font-size:11px;fill:#6b7684}
+    .k{font-size:12px;fill:#26303c}
+    .kb{font-size:12px;font-weight:700;fill:#1b2430}
+    .gate{font-size:11px;font-weight:700;fill:#2f7d32}
+    .nogate{font-size:11px;font-weight:700;fill:#9aa4b0}
+  </style>
+  <rect width="1060" height="700" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">Nine layers of defect prevention, and which two can stop a merge</text>
+  <text class="sub" x="34" y="55">Lower layers are cheaper and run themselves. Higher layers cost human attention and churn with every new feature.</text>
+
+  <!-- pyramid bands: index 0 = layer 9 (top) -->
+  <g stroke="#ffffff" stroke-width="1.5">
+    <polygon points="335,86 605,86 626,132 314,132" fill="#a8392f"/>
+    <polygon points="314,132 626,132 647,178 293,178" fill="#c25a4b"/>
+    <polygon points="293,178 647,178 668,224 272,224" fill="#cf7a3e"/>
+    <polygon points="272,224 668,224 689,270 251,270" fill="#dda05a"/>
+    <polygon points="251,270 689,270 710,316 230,316" fill="#ecd0b3"/>
+    <polygon points="230,316 710,316 731,362 209,362" fill="#9c6c27"/>
+    <polygon points="209,362 731,362 752,408 188,408" fill="#dda025"/>
+    <polygon points="188,408 752,408 773,454 167,454" fill="#5d9a45"/>
+    <polygon points="167,454 773,454 794,500 146,500" fill="#3f7f33"/>
+  </g>
+
+  <g text-anchor="middle">
+    <text class="bl" x="470" y="104" fill="#ffffff">9 · Runtime monitoring</text>
+    <text class="bs" x="470" y="121" fill="#f3dedb">memory, hangs, heat, stutter</text>
+
+    <text class="bl" x="470" y="150" fill="#ffffff">8 · Runtime monitoring</text>
+    <text class="bs" x="470" y="167" fill="#fbe7e3">layout audit on first appearance</text>
+
+    <text class="bl" x="470" y="196" fill="#ffffff">7 · Dynamic checks</text>
+    <text class="bs" x="470" y="213" fill="#fdeade">end-to-end UI guardrails</text>
+
+    <text class="bl" x="470" y="242" fill="#33260f">6 · Dynamic checks</text>
+    <text class="bs" x="470" y="259" fill="#4a3718">unit tests</text>
+
+    <text class="bl" x="470" y="288" fill="#3a2b18">5 · Consolidation</text>
+    <text class="bs" x="470" y="305" fill="#5a442a">one entry point per semantic, design system tokens</text>
+
+    <text class="bl" x="470" y="334" fill="#ffffff">4 · Static review</text>
+    <text class="bs" x="470" y="351" fill="#f0e3cd">grep-tier criteria + LLM review</text>
+
+    <text class="bl" x="470" y="380" fill="#33260f">3 · Static review</text>
+    <text class="bs" x="470" y="397" fill="#4a3718">lint rules, built-in and custom</text>
+
+    <text class="bl" x="470" y="426" fill="#ffffff">2 · Static checks</text>
+    <text class="bs" x="470" y="443" fill="#e3f1dc">dependency lockfile consistency</text>
+
+    <text class="bl" x="470" y="472" fill="#ffffff">1 · Static checks</text>
+    <text class="bs" x="470" y="489" fill="#dcecd6">compile-time flags</text>
+  </g>
+
+  <!-- left gutter: can it block a merge -->
+  <text class="kb" x="34" y="80">Blocks a merge?</text>
+  <g text-anchor="start">
+    <text class="nogate" x="34" y="112">no — reports only</text>
+    <text class="nogate" x="34" y="158">no — reports only</text>
+    <text class="nogate" x="34" y="204">no — not required</text>
+    <text class="nogate" x="34" y="250">no — not required</text>
+    <text class="nogate" x="34" y="296">n/a — no check</text>
+    <text class="nogate" x="34" y="342">no — always green</text>
+    <text class="nogate" x="34" y="388">no — not required</text>
+    <text class="gate" x="34" y="434">YES — required</text>
+    <text class="gate" x="34" y="480">YES — build fails</text>
+  </g>
+  <rect x="28" y="418" width="128" height="72" rx="5" fill="none" stroke="#2f7d32" stroke-width="1.6"/>
+
+  <!-- right gutter: automation axis -->
+  <line x1="830" y1="96" x2="830" y2="494" stroke="#8b95a1" stroke-width="1.4" marker-start="url(#au)" marker-end="url(#ad)"/>
+  <rect x="852" y="86" width="176" height="66" rx="5" fill="#f1f3f6" stroke="#c4ccd6"/>
+  <text class="ax" x="866" y="107">Mostly human</text>
+  <text class="axs" x="866" y="125">every new feature means</text>
+  <text class="axs" x="866" y="140">another pass over this layer</text>
+
+  <rect x="852" y="434" width="176" height="66" rx="5" fill="#f1f3f6" stroke="#c4ccd6"/>
+  <text class="ax" x="866" y="455">Almost no humans</text>
+  <text class="axs" x="866" y="473">set up once, then free</text>
+  <text class="axs" x="866" y="488">on every change forever</text>
+
+  <!-- footer band -->
+  <rect x="34" y="536" width="994" height="130" rx="6" fill="#f1f3f6" stroke="#c4ccd6"/>
+  <text class="kb" x="52" y="560">What the picture is for</text>
+  <text class="k" x="52" y="584">Only layers 1 and 2 can stop a bad change. Five of the nine are checks that go red and merge anyway —</text>
+  <text class="k" x="52" y="603">a check ignored long enough is indistinguishable from a check that does not exist.</text>
+  <text class="k" x="52" y="627">Each mechanism also covers one failure direction and is blind to the other: the compile flag is strong on a</text>
+  <text class="k" x="52" y="646">missing call and weak on a duplicate one, while the runtime guard that pairs with it is the exact reverse.</text>
+</svg>
