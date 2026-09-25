@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="640" viewBox="0 0 1060 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .h{font-size:13.5px;font-weight:700;fill:#1b2430}
+    .k{font-size:12px;fill:#26303c}
+    .kr{font-size:12px;fill:#a5281b}
+    .kg{font-size:12px;fill:#1e7a45}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:#a5281b}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+  </style>
+  <rect width="1060" height="640" fill="#fbfcfd"/>
+  <text class="t" x="34" y="34">In-feed banner: why the creative leaves blank strips, and where the fix lives</text>
+  <text class="sub" x="34" y="55">The SDK's inner ad view keeps its own size. Resizing the host container only changes what gets clipped.</text>
+
+  <!-- Panel A -->
+  <rect x="34" y="78" width="316" height="400" rx="6" fill="#ffffff" stroke="#c4ccd6"/>
+  <text class="tag" x="50" y="100" fill="#a5281b">A · SYMPTOM</text>
+  <text class="h" x="50" y="120">Fixed 300×250 request in a full-width row</text>
+  <rect x="50" y="140" width="284" height="200" fill="#eef1f5" stroke="#8a96a3" stroke-dasharray="4 3"/>
+  <rect x="50" y="150" width="30" height="180" fill="#dfe3e8"/>
+  <rect x="304" y="150" width="30" height="180" fill="#dfe3e8"/>
+  <rect x="80" y="150" width="224" height="180" fill="#e6eef7" stroke="#4a78a8" stroke-width="1.5"/>
+  <text class="mono" x="192" y="236" text-anchor="middle">inner ad view</text>
+  <text class="mono" x="192" y="252" text-anchor="middle">300×250, centered</text>
+  <text class="kr" x="65" y="358" text-anchor="middle">blank</text>
+  <text class="kr" x="319" y="358" text-anchor="middle">blank</text>
+  <text class="k" x="50" y="392">Host cell is full row width.</text>
+  <text class="k" x="50" y="410">The creative is not. The leftover</text>
+  <text class="k" x="50" y="428">width shows as strips on each side.</text>
+
+  <!-- Panel B -->
+  <rect x="372" y="78" width="316" height="400" rx="6" fill="#ffffff" stroke="#c4ccd6"/>
+  <text class="tag" x="388" y="100" fill="#a5281b">B · CLIENT-SIDE FIX (FAILS)</text>
+  <text class="h" x="388" y="120">Pin the SDK's container to 300×169</text>
+  <rect x="418" y="148" width="224" height="232" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="418" y="180" width="224" height="126" fill="#e6eef7" stroke="#1b2430" stroke-width="2"/>
+  <text class="mono" x="530" y="232" text-anchor="middle">container 300×169</text>
+  <text class="monor" x="530" y="252" text-anchor="middle">inner view 300×250</text>
+  <text class="monor" x="530" y="268" text-anchor="middle">origin (0, −40.3)</text>
+  <text class="kr" x="530" y="168" text-anchor="middle">clipped</text>
+  <text class="kr" x="530" y="344" text-anchor="middle">clipped</text>
+  <text class="k" x="388" y="410">The inner view ignores the container,</text>
+  <text class="k" x="388" y="428">stays 300×250 and re-centers itself.</text>
+  <text class="k" x="388" y="446">Top and bottom are cut off instead.</text>
+
+  <!-- Panel C -->
+  <rect x="710" y="78" width="316" height="400" rx="6" fill="#ffffff" stroke="#c4ccd6"/>
+  <text class="tag" x="726" y="100" fill="#1e7a45">C · SDK-SIDE FIX</text>
+  <text class="h" x="726" y="120">Request inline adaptive, then cap height</text>
+  <rect x="726" y="140" width="284" height="140" fill="#e3f2e8" stroke="#1e7a45" stroke-width="1.5"/>
+  <text class="mono" x="868" y="206" text-anchor="middle">creative fills row width</text>
+  <text class="mono" x="868" y="222" text-anchor="middle">media area 258pt → 216pt</text>
+  <rect x="726" y="300" width="284" height="64" rx="4" fill="#fff6e6" stroke="#d9a441"/>
+  <text class="k" x="740" y="322">On did-load, before handing to host:</text>
+  <text class="mono" x="740" y="342">loadedHeight &gt; cap ?</text>
+  <text class="kr" x="740" y="357">  destroy, report as no-fill</text>
+  <text class="kg" x="726" y="392">Fix 1: map the host's adaptive size to</text>
+  <text class="kg" x="726" y="410">the vendor's inline adaptive size.</text>
+  <text class="kg" x="726" y="428">Fix 2: drop over-tall loads (adaptive</text>
+  <text class="kg" x="726" y="446">requests only; fixed sizes untouched).</text>
+
+  <!-- band -->
+  <rect x="34" y="500" width="992" height="112" rx="6" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="h" x="52" y="526">What the picture is for</text>
+  <text class="k" x="52" y="550">The layout is decided by the size you ask the ad network for, not by the view you place it in. If the fix is not</text>
+  <text class="k" x="52" y="570">in the request, no host constraint can make the creative fill the row. And an adaptive request has no maximum</text>
+  <text class="k" x="52" y="590">height, so the same placement returned 168, 216, 250 and 640pt: the cap is what keeps the feed row bounded.</text>
+</svg>

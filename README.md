@@ -13,7 +13,7 @@ drafts/                            local staging, untracked
 `assets/` mirrors `articles/` one-to-one: an article in `articles/feed/layout/`
 keeps its images in `assets/feed/layout/`.
 
-Topics: `architecture/harness`, `deeplink`, `feed/layout`, `feed/crashes`,
+Topics: `architecture/harness`, `deeplink`, `feed/layout`, `feed/layout/ads`, `feed/crashes`,
 `notification`, `notification/crashes`, `notification/workflow`, `onboarding`,
 `performance`, `tech-design`, `webview`.
 
