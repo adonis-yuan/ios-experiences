@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1e7a46"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .ph{font-size:13.5px;font-weight:700;fill:#1b2430}
+    .lane{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .msg{font-size:12px;fill:#26303c}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:#a5281b}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;marker-end:url(#ah)}
+    .lnr{stroke:#c0392b;stroke-width:2;marker-end:url(#ahr)}
+    .lnrd{stroke:#c0392b;stroke-width:1.8;stroke-dasharray:6 4}
+    .life{stroke:#b8c1cc;stroke-width:1.2;stroke-dasharray:3 4}
+  </style>
+  <rect width="1200" height="720" fill="#fbfcfd"/>
+
+  <text class="t" x="30" y="34">Facebook ad → a specific article: two paths, two different outcomes</text>
+  <text class="sub" x="30" y="55">Whether the app is installed at tap time decides which path runs. The two share no code and fail for different reasons.</text>
+
+  <!-- panel A -->
+  <rect x="30" y="70" width="560" height="440" rx="8" fill="#ffffff" stroke="#d5dbe2"/>
+  <text class="ph" x="46" y="93">A · Already installed (inbound)</text>
+  <rect x="50" y="106" width="120" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="110" y="127" text-anchor="middle">Facebook app</text>
+  <rect x="250" y="106" width="120" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="310" y="127" text-anchor="middle">iOS</text>
+  <rect x="440" y="106" width="120" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="500" y="127" text-anchor="middle">Your app</text>
+  <line class="life" x1="110" y1="140" x2="110" y2="495"/>
+  <line class="life" x1="310" y1="140" x2="310" y2="495"/>
+  <line class="life" x1="500" y1="140" x2="500" y2="495"/>
+
+  <rect x="60" y="156" width="100" height="26" rx="4" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="msg" x="110" y="173" text-anchor="middle">user taps ad</text>
+
+  <text class="msg" x="118" y="208">opens the configured URL as-is</text>
+  <text class="mono" x="118" y="224">yourapp://article?id=…</text>
+  <text class="mono" x="118" y="238">  + utm_* + al_applink_data</text>
+  <line class="ln" x1="110" y1="250" x2="304" y2="250"/>
+
+  <text class="mono" x="316" y="282">application(_:open:)</text>
+  <line class="ln" x1="310" y1="292" x2="494" y2="292"/>
+
+  <rect x="400" y="316" width="180" height="42" rx="4" fill="#e7f4ec" stroke="#8cc5a2"/>
+  <text class="msg" x="490" y="334" text-anchor="middle" fill="#1e7a46">own-scheme route on host + id</text>
+  <text class="msg" x="490" y="350" text-anchor="middle" fill="#1e7a46" font-weight="700">article opens ✓</text>
+
+  <rect x="50" y="384" width="520" height="44" rx="4" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="monor" x="62" y="402">al_applink_data.target_url = App Store URL</text>
+  <text class="msg" x="62" y="419" fill="#a5281b">not the landing page — nothing to unwrap there</text>
+
+  <rect x="50" y="440" width="520" height="44" rx="4" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="msg" x="62" y="458">The fb&lt;app_id&gt;:// handler, and any gate on it, is never reached</text>
+  <text class="msg" x="62" y="475">for ads that have a deep link configured.</text>
+
+  <!-- panel B -->
+  <rect x="610" y="70" width="560" height="440" rx="8" fill="#ffffff" stroke="#d5dbe2"/>
+  <text class="ph" x="626" y="93">B · Not installed (deferred)</text>
+  <rect x="624" y="106" width="112" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="680" y="127" text-anchor="middle">Facebook app</text>
+  <rect x="764" y="106" width="112" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="820" y="127" text-anchor="middle">App Store</text>
+  <rect x="904" y="106" width="112" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="960" y="127" text-anchor="middle">Your app</text>
+  <rect x="1054" y="106" width="104" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="1106" y="127" text-anchor="middle">Meta servers</text>
+  <line class="life" x1="680" y1="140" x2="680" y2="495"/>
+  <line class="life" x1="820" y1="140" x2="820" y2="495"/>
+  <line class="life" x1="960" y1="140" x2="960" y2="495"/>
+  <line class="life" x1="1106" y1="140" x2="1106" y2="495"/>
+
+  <rect x="630" y="156" width="100" height="26" rx="4" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="msg" x="680" y="173" text-anchor="middle">user taps ad</text>
+
+  <text class="msg" x="688" y="210">store page</text>
+  <line class="ln" x1="680" y1="220" x2="814" y2="220"/>
+
+  <text class="msg" x="828" y="252">install, first launch</text>
+  <line class="ln" x1="820" y1="262" x2="954" y2="262"/>
+
+  <text class="monor" x="966" y="294">fetchDeferredAppLink</text>
+  <line class="lnr" x1="960" y1="304" x2="1100" y2="304"/>
+  <text class="tag" x="966" y="321" fill="#a5281b">ATT = .notDetermined</text>
+
+  <line class="lnrd" x1="1106" y1="352" x2="1000" y2="352"/>
+  <line x1="990" y1="342" x2="1010" y2="362" stroke="#c0392b" stroke-width="2.5"/>
+  <line x1="1010" y1="342" x2="990" y2="362" stroke="#c0392b" stroke-width="2.5"/>
+  <text class="msg" x="982" y="378" fill="#a5281b">no link (inferred)</text>
+
+  <rect x="866" y="390" width="188" height="26" rx="4" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="msg" x="960" y="407" text-anchor="middle" fill="#a5281b">home feed; article never opens</text>
+
+  <rect x="626" y="430" width="530" height="54" rx="4" fill="#fff4e0" stroke="#e0b870"/>
+  <text class="msg" x="638" y="449">Later: push-permission prompt → its callback → +2s → ATT prompt.</text>
+  <text class="msg" x="638" y="467" font-weight="700">The fetch already ran. No new install has answered ATT at that point.</text>
+
+  <!-- what it's for -->
+  <rect x="30" y="530" width="1140" height="164" rx="6" fill="#f2f5f8" stroke="#d5dbe2"/>
+  <text class="kb" x="46" y="556">What the picture is for</text>
+  <text class="k" x="46" y="582">• Path A already works with no client change: Meta hands your app the URL you configured in the ad, on your own scheme.</text>
+  <text class="k" x="46" y="606">• Path B fails on ordering, not refusal. The fetch runs before any user could have answered the tracking prompt.</text>
+  <text class="k" x="46" y="630">• Neither path goes through the Facebook-scheme handler, and target_url never holds the landing page.</text>
+  <text class="k" x="46" y="654">• Test with real payloads. A hand-built al_applink_data passed in the simulator and was disproved by the first device log.</text>
+  <text class="sub" x="46" y="680">Solid = normal message · red = the defect · dashed with X = a response that does not arrive (inferred, not yet confirmed by production data)</text>
+</svg>
