@@ -703,7 +703,7 @@ format yet and are on the open list.
 
 Every action takes effect locally with immediate feedback, then goes out through
 the transport; it rolls back if the server rejects it. Field details are in the
-companion frame-format document.
+companion [frame-format document](frame-and-message-format.md).
 
 | Action | Native (UI layer) | Store / transport calls | Network |
 | --- | --- | --- | --- |
@@ -757,7 +757,7 @@ alignment, version sync and resend backoff. Three shared artifacts pin them down
 
 | Shared artifact | Content | Form |
 | --- | --- | --- |
-| Message definitions | The `.proto` from the frame-format document | One repository shared by server and both clients; iOS generates Swift, Android generates Java / Kotlin |
+| Message definitions | The `.proto` from the [frame-format document](frame-and-message-format.md) | One repository shared by server and both clients; iOS generates Swift, Android generates Java / Kotlin |
 | Schema | The tables in Part 1 of this document | One SQL DDL; both platforms' table creation is generated from it or checked against it line by line |
 | Shared test cases | A sequence of input frames (out of order, duplicated, with gaps, stale `ver`, reconnects) and the expected list and database state | JSON files; both platforms' unit tests read the same files and must produce identical results |
 
@@ -774,7 +774,7 @@ when both platforms pass.
 - The quick buttons under host messages (such as "Post it here / Push me") need
   message fields and a tap-report frame. Who defines them?
 
-Frame structure and message formats are in a companion document.
+Frame structure and message formats are in the companion [frame-format document](frame-and-message-format.md).
 
 ## Appendix A: History over the long connection
 
@@ -937,7 +937,8 @@ Storage:
 
 - The full `refs` (reference type, target and the summary filled in by the server)
   is stored with the whole message in `messages.body`; its structure is in the
-  "references" section of the frame-format document.
+  [references](frame-and-message-format.md#references-refs) section of the
+  frame-format document.
 - The reply target that needs querying (the replied-to message id when replying
   to a room message) is split into the indexed `reply_to_msg_id` column, for
   jump-to-reference and "all replies to this message". Replies to article
