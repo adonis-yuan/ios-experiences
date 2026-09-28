@@ -14,7 +14,7 @@ drafts/                            local staging, untracked
 keeps its images in `assets/feed/layout/`.
 
 Topics: `architecture/harness`, `deeplink`, `feed/layout`, `feed/layout/ads`, `feed/crashes`,
-`notification`, `notification/crashes`, `notification/workflow`, `onboarding`,
+`messaging/live-room/tech-design`, `notification`, `notification/crashes`, `notification/workflow`, `onboarding`,
 `performance`, `tech-design`, `webview`.
 
 ## Referencing an image
