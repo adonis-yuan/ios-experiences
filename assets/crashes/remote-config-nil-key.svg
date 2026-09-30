@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="800" viewBox="0 0 1060 800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .lane{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#a5281b}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#aha)}
+    .lnr{stroke:#c0392b;stroke-width:2;fill:none;marker-end:url(#ahr)}
+    .life{stroke:#b8c1cc;stroke-width:1.2;stroke-dasharray:3 4}
+  </style>
+  <rect width="1060" height="800" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">A remote-config nil key that crashes on someone else's queue</text>
+  <text class="sub" x="34" y="55">The SDK that parses the bad value returns long before the exception is thrown, so no frame in the report names it.</text>
+
+  <rect x="34" y="72" width="200" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="134" y="95" text-anchor="middle">Vendor config service</text>
+  <rect x="290" y="72" width="230" height="36" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="405" y="95" text-anchor="middle">Analytics SDK (static lib)</text>
+  <rect x="566" y="72" width="230" height="36" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="681" y="95" text-anchor="middle">Dictionary wrapper's serial queue</text>
+  <rect x="836" y="72" width="190" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="931" y="95" text-anchor="middle">Crash reporter</text>
+
+  <line class="life" x1="134" y1="112" x2="134" y2="500"/>
+  <line class="life" x1="405" y1="112" x2="405" y2="500"/>
+  <line class="life" x1="681" y1="112" x2="681" y2="500"/>
+  <line class="life" x1="931" y1="112" x2="931" y2="500"/>
+
+  <line class="ln" x1="405" y1="140" x2="140" y2="140"/>
+  <text class="mono" x="146" y="134">fetch experiments (at launch)</text>
+
+  <line class="lnr" x1="134" y1="178" x2="399" y2="178"/>
+  <text class="monor" x="146" y="172">config: one flag has no name</text>
+  <text class="tag" x="146" y="194" fill="#a5281b">MALFORMED SERVER-SIDE</text>
+
+  <rect x="252" y="210" width="306" height="46" rx="4" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="mono" x="405" y="229" text-anchor="middle">init(experimentID:flags:)</text>
+  <text class="monor" x="405" y="247" text-anchor="middle">name = readString(flag, 0)  // nil</text>
+
+  <line class="lnr" x1="405" y1="290" x2="675" y2="290"/>
+  <text class="monor" x="416" y="284">flags[nil] = flag</text>
+  <text class="sub" x="416" y="306">setter dispatch_asyncs the write</text>
+
+  <rect x="300" y="322" width="210" height="28" rx="4" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="k" x="405" y="341" text-anchor="middle">returns — caller frame gone</text>
+
+  <rect x="560" y="366" width="242" height="46" rx="4" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="mono" x="681" y="385" text-anchor="middle">block: dict[key] = value</text>
+  <text class="tag" x="681" y="403" text-anchor="middle" fill="#8a5a00">TAIL CALL — BLOCK FRAME ELIDED</text>
+
+  <rect x="560" y="424" width="242" height="30" rx="4" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="monor" x="681" y="444" text-anchor="middle">throw: key cannot be nil</text>
+
+  <line class="lnd" x1="681" y1="476" x2="925" y2="476"/>
+  <text class="mono" x="692" y="470">terminate handler</text>
+  <rect x="836" y="486" width="190" height="46" rx="4" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="k" x="931" y="505" text-anchor="middle">dispatch_sync to own queue</text>
+  <text class="k" x="931" y="523" text-anchor="middle">→ queue label overwritten</text>
+
+  <rect x="34" y="552" width="480" height="76" rx="6" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="50" y="574">What the crash report shows</text>
+  <text class="k" x="50" y="594">libdispatch drain → NSMutableDictionary setter → throw. No app or SDK</text>
+  <text class="k" x="50" y="612">frame, and the queue name belongs to the crash reporter.</text>
+
+  <rect x="540" y="552" width="486" height="76" rx="6" fill="#e3f1e6" stroke="#8fbf9a"/>
+  <text class="kb" x="556" y="574">What identified the writer</text>
+  <text class="k" x="556" y="594">Disassembling the release binary for blocks that end in a tail call to</text>
+  <text class="k" x="556" y="612">the dictionary setter; exactly one existed.</text>
+
+  <line x1="34" y1="652" x2="1026" y2="652" stroke="#d5dce4"/>
+  <text class="kb" x="34" y="678">What the picture is for</text>
+  <text class="k" x="34" y="700">• The bug is in the parser (no presence check), the trigger is data, and the crash site is a third queue that owns no logic.</text>
+  <text class="k" x="34" y="722">• Rolling back the config fixes every installed version at once, which is exactly what makes the spike look like your own server.</text>
+  <text class="k" x="34" y="744">• The wrapper's own call sites all guard against nil. That clears the wrapper, not the closed-source code calling it.</text>
+  <text class="k" x="34" y="766">• Solid = normal flow · dashed amber = system/handler path · red = the defect.</text>
+</svg>
