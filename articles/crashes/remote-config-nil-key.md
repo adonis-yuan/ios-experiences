@@ -213,6 +213,13 @@ the 1,024-character limit. Sort and comma-join instead, split across a small
 fixed set of keys, and clear the unused ones so values from an earlier session
 don't linger.
 
+Know where you can read it back. The Crashlytics console filters by version,
+event type, issue state, device, OS and Remote Config rollouts, but not by
+custom key, and its search does not match inside key values. The console only
+shows the full list on a single event's Keys tab. Slicing crashes by experiment
+arm has to happen in the BigQuery export. Check this before you plan an
+investigation around a key.
+
 **Hold the global swizzle in reserve.** Swizzling `__NSDictionaryM`'s setters to
 drop nil keys and log a non-fatal (with queue label, value class and call stack)
 would both stop the bleeding and name the writer. It was not needed once the
