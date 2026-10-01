@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="560" viewBox="0 0 1060 560" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .h{font-size:13px;font-weight:700;fill:#1b2430}
+    .k{font-size:12px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .ln{stroke:#3c4653;stroke-width:1.6;fill:none;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.6;stroke-dasharray:6 4;fill:none;marker-end:url(#aha)}
+  </style>
+  <rect width="1060" height="560" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">Order of work: measure first, then fix decision and connection together</text>
+  <text class="sub" x="34" y="55">Solid arrow = hard dependency. Dashed = must land before the experiment starts, or the guardrail baseline is wrong.</text>
+
+  <text class="tag" x="40" y="88" fill="#5d6875">P0 · PREREQUISITES</text>
+  <rect x="40" y="98" width="260" height="70" rx="6" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="h" x="56" y="122">1 · TTFF / stall / cache-hit metric</text>
+  <text class="k" x="56" y="142">start at play(), end on a true</text>
+  <text class="k" x="56" y="158">isReadyForDisplay</text>
+
+  <rect x="40" y="190" width="260" height="70" rx="6" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="h" x="56" y="214">2 · moov offsets + rewatch rate</text>
+  <text class="k" x="56" y="234">sizes the probe; bounds the</text>
+  <text class="k" x="56" y="250">cache's possible win</text>
+
+  <rect x="40" y="282" width="260" height="70" rx="6" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="h" x="56" y="306">8 · stop-preload fetches a web page</text>
+  <text class="k" x="56" y="326">may inflate the playback-failure</text>
+  <text class="k" x="56" y="342">guardrail</text>
+
+  <text class="tag" x="390" y="88" fill="#5d6875">P0 · THE FIX (ONE EXPERIMENT)</text>
+  <rect x="390" y="98" width="300" height="254" rx="6" fill="#eaf5ec" stroke="#9fcca8"/>
+  <text class="h" x="406" y="122">3 · Fix decision + share session</text>
+  <text class="tag" x="406" y="146" fill="#2f7a3d">A/B, PER SESSION</text>
+  <text class="k" x="406" y="166">skip empty value · 64-bit box sizes</text>
+  <text class="k" x="406" y="184">one long-lived URLSession, per-task delegate</text>
+  <text class="k" x="406" y="202">urlCache = nil · cache dir out of tmp/</text>
+  <text class="tag" x="406" y="230" fill="#2f7a3d">UNGATED (CACHE PATH ONLY)</text>
+  <text class="k" x="406" y="250">ranged reads, append-only writes</text>
+  <text class="k" x="406" y="268">correct size accounting, working eviction</text>
+  <text class="k" x="406" y="286">disk-write diagnostics for attribution</text>
+  <text class="k" x="406" y="304">fallback to default path + non-fatal</text>
+  <text class="sub" x="406" y="334">keeps OOM / disk-write regressions separable</text>
+
+  <text class="tag" x="780" y="88" fill="#5d6875">P1 · AFTER</text>
+  <rect x="780" y="98" width="240" height="70" rx="6" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="h" x="796" y="122">4 · CDN pre-warm</text>
+  <text class="k" x="796" y="142">needs 3's shared session;</text>
+  <text class="k" x="796" y="158">caching path only</text>
+
+  <path class="ln" d="M300,133 L384,160"/>
+  <path class="ln" d="M300,225 L384,212"/>
+  <path class="lnd" d="M300,317 L384,290"/>
+  <path class="ln" d="M690,133 L774,133"/>
+
+  <text class="tag" x="40" y="396" fill="#5d6875">INDEPENDENT · SLOT IN ANY TIME</text>
+  <rect x="40" y="406" width="230" height="56" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="h" x="56" y="430">5 · Episodic player in pool</text>
+  <text class="k" x="56" y="448">only if item 1 shows a gap</text>
+  <rect x="290" y="406" width="230" height="56" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="h" x="306" y="430">6 · Playlist server on demand</text>
+  <text class="k" x="306" y="448">+ 1–2 s subtitle timeout</text>
+  <rect x="540" y="406" width="230" height="56" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="h" x="556" y="430">7 · Drop debug-only override</text>
+  <text class="k" x="556" y="448">debug ≠ production otherwise</text>
+  <rect x="790" y="406" width="230" height="56" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="h" x="806" y="430">9 · HLS cache: yes or no</text>
+  <text class="k" x="806" y="448">decided from item 1's data</text>
+
+  <rect x="34" y="484" width="992" height="58" rx="6" fill="#f1f4f8" stroke="#d3dae3"/>
+  <text class="kb" x="52" y="506">What the picture is for</text>
+  <text class="k" x="52" y="526">Fixing only the decision would make cache misses slower (probe handshake, then a handshake per request), so both changes share one experiment arm.</text>
+</svg>
