@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="830" viewBox="0 0 1080 830" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1e7a46"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .ph{font-size:13.5px;font-weight:700;fill:#1b2430}
+    .lane{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#a5281b}
+    .monog{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#1e6a3e}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.5;stroke-dasharray:6 4;fill:none;marker-end:url(#aha)}
+    .lnr{stroke:#c0392b;stroke-width:2;fill:none;marker-end:url(#ahr)}
+    .lng{stroke:#1e7a46;stroke-width:2;fill:none;marker-end:url(#ahg)}
+    .life{stroke:#b8c1cc;stroke-width:1.2;stroke-dasharray:3 4}
+  </style>
+  <rect width="1080" height="830" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">One receive(on:) turned an accidental two-shot subscription into a one-shot that never caches</text>
+  <text class="sub" x="34" y="55">@Published replays its current value (empty Data) to a new subscriber. Whether that happens inside sink() or later decides everything.</text>
+
+  <!-- Panel 1 -->
+  <rect x="24" y="72" width="1032" height="330" rx="8" fill="#f3f8f4" stroke="#cfe3d5"/>
+  <text class="ph" x="40" y="94">Before: the empty value arrives synchronously, inside sink()</text>
+
+  <rect x="80" y="106" width="180" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="170" y="127" text-anchor="middle">Player setup code</text>
+  <rect x="360" y="106" width="180" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="450" y="127" text-anchor="middle">loader.$probeData</text>
+  <rect x="600" y="106" width="180" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="690" y="127" text-anchor="middle">Main queue</text>
+  <rect x="830" y="106" width="180" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="920" y="127" text-anchor="middle">cancellables set</text>
+  <line class="life" x1="170" y1="140" x2="170" y2="390"/>
+  <line class="life" x1="450" y1="140" x2="450" y2="390"/>
+  <line class="life" x1="690" y1="140" x2="690" y2="390"/>
+  <line class="life" x1="920" y1="140" x2="920" y2="390"/>
+
+  <line class="ln" x1="170" y1="165" x2="444" y2="165"/>
+  <text class="mono" x="307" y="159" text-anchor="middle">sink { … }</text>
+  <line class="ln" x1="450" y1="192" x2="176" y2="192"/>
+  <text class="mono" x="313" y="186" text-anchor="middle">Data() — synchronously</text>
+  <rect x="40" y="203" width="260" height="24" rx="4" fill="#ffffff" stroke="#c4ccd6"/>
+  <text class="mono" x="170" y="219" text-anchor="middle">no moov → playStreaming(url)</text>
+  <line class="ln" x1="170" y1="245" x2="914" y2="245"/>
+  <text class="mono" x="545" y="239" text-anchor="middle">removeAll()</text>
+  <text class="k" x="930" y="262" text-anchor="start">set is still empty:</text>
+  <text class="k" x="930" y="277" text-anchor="start">nothing cancelled</text>
+  <line class="ln" x1="170" y1="296" x2="914" y2="296"/>
+  <text class="mono" x="545" y="290" text-anchor="middle">sink returns → store(in:) — subscription alive</text>
+  <line class="lng" x1="450" y1="325" x2="176" y2="325"/>
+  <text class="monog" x="313" y="319" text-anchor="middle">probe bytes (0–1024)</text>
+  <rect x="40" y="335" width="260" height="24" rx="4" fill="#e3f3e8" stroke="#8cc5a0"/>
+  <text class="monog" x="170" y="351" text-anchor="middle">moov found → playWithDiskCache</text>
+  <line class="ln" x1="170" y1="378" x2="914" y2="378"/>
+  <text class="mono" x="545" y="372" text-anchor="middle">removeAll() — now actually cancels</text>
+
+  <!-- Panel 2 -->
+  <rect x="24" y="416" width="1032" height="330" rx="8" fill="#fbf2f1" stroke="#ecc9c4"/>
+  <text class="ph" x="40" y="438">After adding .receive(on: DispatchQueue.main): the empty value arrives later, after store(in:)</text>
+
+  <rect x="80" y="450" width="180" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="170" y="471" text-anchor="middle">Player setup code</text>
+  <rect x="360" y="450" width="180" height="32" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="450" y="471" text-anchor="middle">loader.$probeData</text>
+  <rect x="600" y="450" width="180" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="690" y="471" text-anchor="middle">Main queue</text>
+  <rect x="830" y="450" width="180" height="32" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="920" y="471" text-anchor="middle">cancellables set</text>
+  <line class="life" x1="170" y1="484" x2="170" y2="734"/>
+  <line class="life" x1="450" y1="484" x2="450" y2="734"/>
+  <line class="life" x1="690" y1="484" x2="690" y2="734"/>
+  <line class="life" x1="920" y1="484" x2="920" y2="734"/>
+
+  <line class="ln" x1="170" y1="508" x2="444" y2="508"/>
+  <text class="mono" x="307" y="502" text-anchor="middle">sink { … }</text>
+  <line class="lnd" x1="450" y1="534" x2="684" y2="534"/>
+  <text class="mono" x="567" y="528" text-anchor="middle">Data() scheduled</text>
+  <line class="ln" x1="170" y1="562" x2="914" y2="562"/>
+  <text class="mono" x="400" y="556" text-anchor="middle">sink returns → store(in:) — subscription stored</text>
+  <line class="lnd" x1="690" y1="592" x2="176" y2="592"/>
+  <text class="mono" x="433" y="586" text-anchor="middle">Data() — empty, delivered now</text>
+  <rect x="40" y="602" width="260" height="24" rx="4" fill="#ffffff" stroke="#c4ccd6"/>
+  <text class="mono" x="170" y="618" text-anchor="middle">no moov → playStreaming(url)</text>
+  <line class="lnr" x1="170" y1="645" x2="914" y2="645"/>
+  <text class="monor" x="545" y="639" text-anchor="middle">removeAll() — this subscription cancelled</text>
+  <line x1="450" y1="684" x2="215" y2="684" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <path d="M203,676 L219,692 M219,676 L203,692" stroke="#c0392b" stroke-width="2.5" fill="none"/>
+  <text class="monor" x="333" y="676" text-anchor="middle">probe bytes — no subscriber</text>
+  <rect x="490" y="668" width="520" height="54" rx="5" fill="#ffffff" stroke="#ecc9c4"/>
+  <text class="k" x="504" y="689">Every video streams. The loader writes its probe to disk</text>
+  <text class="k" x="504" y="707">anyway, so the cache fills with 1025-byte entries and nothing else.</text>
+
+  <!-- Footer -->
+  <rect x="24" y="760" width="1032" height="56" rx="6" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="kb" x="40" y="782">What the picture is for</text>
+  <text class="k" x="40" y="802">The handler always "failed" on the first, empty value. Before, removeAll() ran before the subscription was stored, so a second delivery rescued it.</text>
+</svg>

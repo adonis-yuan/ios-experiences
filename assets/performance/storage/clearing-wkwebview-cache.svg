@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="640" viewBox="0 0 1060 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .h{font-size:12px;font-weight:700;fill:#5d6875;letter-spacing:.3px}
+    .g{font-size:12px;font-weight:700;fill:#1b2430;letter-spacing:.3px}
+    .k{font-size:13px;fill:#26303c}
+    .kb{font-size:13px;font-weight:700;fill:#1b2430}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;fill:#26303c}
+    .yes{font-size:13px;font-weight:700;fill:#1e6a3e}
+    .no{font-size:13px;font-weight:700;fill:#a5281b}
+    .na{font-size:13px;fill:#8a94a0}
+  </style>
+  <rect width="1060" height="640" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">What each cleanup path can reach in the app container</text>
+  <text class="sub" x="34" y="55">URLCache never touched WKWebView's cache. The biggest directory on 92.4% of devices was out of reach until the WebKit step was added.</text>
+
+  <text class="h" x="40" y="92">PART OF THE CONTAINER</text>
+  <text class="h" x="430" y="92">SIZE</text>
+  <text class="h" x="700" y="92" text-anchor="middle">OLD CLEANUP</text>
+  <text class="h" x="900" y="92" text-anchor="middle">+ WEBKIT STEP</text>
+  <line x1="34" y1="102" x2="1026" y2="102" stroke="#c4ccd6"/>
+
+  <!-- clearable group -->
+  <rect x="34" y="110" width="992" height="26" fill="#eef1f5"/>
+  <text class="g" x="40" y="128">CACHES: CLEARABLE IN PRINCIPLE</text>
+
+  <rect x="34" y="138" width="992" height="44" fill="#fdf6e9"/>
+  <text class="mono" x="40" y="165">Library/Caches/WebKit</text>
+  <text class="k" x="430" y="158">mean 1258MB, p90 2427MB</text>
+  <text class="k" x="430" y="174">largest cache on 92.4% of devices</text>
+  <text class="no" x="700" y="165" text-anchor="middle">✗ not reached</text>
+  <text class="yes" x="900" y="158" text-anchor="middle">✓ WKWebsiteDataStore</text>
+  <text class="mono" x="900" y="174" text-anchor="middle">disk, memory, fetch</text>
+
+  <line x1="34" y1="182" x2="1026" y2="182" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="209">Image cache</text>
+  <text class="k" x="430" y="209">capped at 200MB</text>
+  <text class="yes" x="700" y="209" text-anchor="middle">✓</text>
+  <text class="yes" x="900" y="209" text-anchor="middle">✓</text>
+
+  <line x1="34" y1="226" x2="1026" y2="226" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="253">Video cache (under tmp/)</text>
+  <text class="k" x="430" y="253">with images, usually &lt; 350MB</text>
+  <text class="yes" x="700" y="253" text-anchor="middle">✓</text>
+  <text class="yes" x="900" y="253" text-anchor="middle">✓</text>
+
+  <line x1="34" y1="270" x2="1026" y2="270" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="297">Third-party SDK caches (e.g. ad creatives)</text>
+  <text class="k" x="430" y="297">200–430MB where largest</text>
+  <text class="no" x="700" y="297" text-anchor="middle">✗</text>
+  <text class="no" x="900" y="297" text-anchor="middle">✗ still open</text>
+
+  <!-- floor group -->
+  <rect x="34" y="320" width="992" height="26" fill="#eef1f5"/>
+  <text class="g" x="40" y="338">THE FLOOR: NEVER CLEARABLE (median ≈ 256MB)</text>
+
+  <text class="k" x="40" y="373">App bundle</text>
+  <text class="k" x="430" y="373">median 193MB (~80% of the floor)</text>
+  <text class="na" x="700" y="373" text-anchor="middle">n/a</text>
+  <text class="na" x="900" y="373" text-anchor="middle">n/a</text>
+  <line x1="34" y1="390" x2="1026" y2="390" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="417">Library/ outside caches (databases, settings)</text>
+  <text class="k" x="430" y="417">median 30–53MB</text>
+  <text class="na" x="700" y="417" text-anchor="middle">n/a</text>
+  <text class="na" x="900" y="417" text-anchor="middle">n/a</text>
+  <line x1="34" y1="434" x2="1026" y2="434" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="461">tmp/ outside the video cache (uploads, downloads)</text>
+  <text class="k" x="430" y="461">mean 28–117MB</text>
+  <text class="na" x="700" y="461" text-anchor="middle">n/a</text>
+  <text class="na" x="900" y="461" text-anchor="middle">n/a</text>
+  <line x1="34" y1="478" x2="1026" y2="478" stroke="#e1e6ec"/>
+  <text class="k" x="40" y="505">Documents/</text>
+  <text class="k" x="430" y="505">median 5–7MB</text>
+  <text class="na" x="700" y="505" text-anchor="middle">n/a</text>
+  <text class="na" x="900" y="505" text-anchor="middle">n/a</text>
+  <line x1="34" y1="522" x2="1026" y2="522" stroke="#c4ccd6"/>
+
+  <rect x="34" y="540" width="992" height="82" rx="6" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="kb" x="50" y="564">What the picture is for</text>
+  <text class="k" x="50" y="586">Per clear with the WebKit step: mean 1157 → 487MB (−58%), median 581 → 247MB — already at the floor.</text>
+  <text class="k" x="50" y="606">Past that point, the remaining work is a smaller bundle and third-party caches, not more aggressive clearing.</text>
+</svg>

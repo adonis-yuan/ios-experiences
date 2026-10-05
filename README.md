@@ -15,7 +15,7 @@ keeps its images in `assets/feed/layout/`.
 
 Topics: `architecture/harness`, `crashes`, `deeplink`, `feed/layout`, `feed/layout/ads`, `feed/crashes`,
 `messaging/live-room/tech-design`, `notification`, `notification/crashes`, `notification/workflow`, `onboarding`,
-`performance`, `tech-design`, `tech-design/video/improvements`, `webview`.
+`performance`, `performance/storage`, `tech-design`, `tech-design/video/improvements`, `webview`.
 
 ## Referencing an image
 
