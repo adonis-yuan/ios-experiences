@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1f7a3e"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .lane{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#a5281b}
+    .monog{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#1f7a3e}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#aha)}
+    .lng{stroke:#1f7a3e;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#ahg)}
+    .lnr{stroke:#c0392b;stroke-width:2;marker-end:url(#ahr)}
+    .life{stroke:#b8c1cc;stroke-width:1.2;stroke-dasharray:3 4}
+    .x{stroke:#c0392b;stroke-width:2.4}
+  </style>
+  <rect width="1100" height="760" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">One writer for the audio session: callers ask, and the answer depends on why they are playing</text>
+  <text class="sub" x="34" y="55">Read-aloud holds the session. A passive request is told to stay muted; a user-initiated one closes read-aloud first, then may write.</text>
+
+  <rect x="40" y="72" width="170" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="125" y="95" text-anchor="middle">Read-aloud (holder)</text>
+  <rect x="250" y="72" width="170" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="335" y="95" text-anchor="middle">Muted autoplay video</text>
+  <rect x="470" y="72" width="190" height="36" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="lane" x="565" y="95" text-anchor="middle">Session arbiter</text>
+  <rect x="710" y="72" width="170" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="795" y="95" text-anchor="middle">Video page</text>
+  <rect x="920" y="72" width="140" height="36" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="lane" x="990" y="95" text-anchor="middle">User</text>
+
+  <line class="life" x1="125" y1="112" x2="125" y2="560"/>
+  <line class="life" x1="335" y1="112" x2="335" y2="560"/>
+  <line class="life" x1="565" y1="112" x2="565" y2="560"/>
+  <line class="life" x1="795" y1="112" x2="795" y2="560"/>
+  <line class="life" x1="990" y1="112" x2="990" y2="560"/>
+
+  <!-- 1 begin -->
+  <line class="ln" x1="125" y1="146" x2="559" y2="146"/>
+  <text class="mono" x="135" y="140">beginSpokenSession(holder: self)</text>
+  <text class="sub" x="135" y="162">participants paused synchronously, then the session is claimed</text>
+
+  <!-- 2 passive -->
+  <line class="ln" x1="335" y1="204" x2="559" y2="204"/>
+  <text class="mono" x="345" y="198">requestPlayback(.passive)</text>
+  <line class="lnd" x1="565" y1="232" x2="341" y2="232"/>
+  <text class="mono" x="400" y="248" fill="#b06a00">.proceedMuted</text>
+  <line x1="335" y1="282" x2="548" y2="282" stroke="#c0392b" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <line class="x" x1="540" y1="274" x2="556" y2="290"/><line class="x" x1="556" y1="274" x2="540" y2="290"/>
+  <text class="monor" x="345" y="270">setCategoryIfAllowed(.ambient)</text>
+  <text class="tag" x="345" y="302" fill="#a5281b">REFUSED — CANNOT DEMOTE READ-ALOUD</text>
+
+  <!-- 3 user taps -->
+  <line class="ln" x1="990" y1="336" x2="801" y2="336"/>
+  <text class="mono" x="852" y="330">taps Video tab</text>
+  <line class="ln" x1="795" y1="372" x2="571" y2="372"/>
+  <text class="mono" x="576" y="366">requestPlayback(.userInitiated)</text>
+  <text class="sub" x="576" y="388">from pageDidAppear()</text>
+
+  <!-- release + close -->
+  <rect x="520" y="404" width="90" height="26" rx="4" fill="#fff4e5" stroke="#e0b46a"/>
+  <text class="mono" x="565" y="421" text-anchor="middle">release</text>
+  <line class="lnr" x1="559" y1="452" x2="131" y2="452"/>
+  <text class="monor" x="180" y="446">closeForUserPlayback(source:) — synchronous</text>
+  <text class="tag" x="180" y="468" fill="#a5281b">READ-ALOUD CLOSED, EVEN IF IT WAS PAUSED</text>
+
+  <line class="lng" x1="565" y1="494" x2="789" y2="494"/>
+  <text class="monog" x="600" y="488">.proceed</text>
+  <line class="ln" x1="795" y1="534" x2="571" y2="534"/>
+  <text class="mono" x="576" y="528">setCategoryIfAllowed(.playback)</text>
+  <text class="tag" x="576" y="552" fill="#1f7a3e">ALLOWED — ONE VOICE</text>
+
+  <!-- band -->
+  <rect x="34" y="584" width="1032" height="150" rx="6" fill="#f4f6f9" stroke="#d5dbe3"/>
+  <text class="kb" x="52" y="610">What the picture is for</text>
+  <text class="k" x="52" y="634">Before: the page wrote setCategory(.playback) itself, and read-aloud only learned about other players from a broadcast</text>
+  <text class="k" x="52" y="652">the page never posted — so both played. A broadcast also could not tell the autoplay video to stay muted.</text>
+  <text class="k" x="52" y="680">After: every start is a call with a return value. Release happens before the close callback, so when the call returns</text>
+  <text class="k" x="52" y="698">the caller owns the session. With no spoken session, the arbiter returns .proceed and performs the original write unchanged.</text>
+  <text class="sub" x="52" y="722">Solid = call · dashed = returned decision · red = blocked or forced close · X = write refused</text>
+</svg>

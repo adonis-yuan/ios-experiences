@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<style>.t{font-size:19px;font-weight:700;fill:#1b2430}.sub{font-size:12.5px;fill:#5d6875}.th{font-size:12px;font-weight:700;fill:#1b2430;letter-spacing:.3px}.k{font-size:12.5px;fill:#26303c}.kb{font-size:12.5px;font-weight:700;fill:#1b2430}.ok{font-size:12px;font-weight:700;fill:#1f7a3e}.qa{font-size:12px;font-weight:700;fill:#a15c00}</style>
+<rect width="1120" height="700" fill="#fbfcfd"/>
+<text class="t" x="34" y="34">While read-aloud is playing: automatic sound yields, the user's next request wins</text>
+<text class="sub" x="34" y="55">Every surface that can make sound, and what happens in each direction. Interstitials and system interruptions are the only pause-and-resume cases.</text>
+<rect x="34" y="76" width="1052" height="34" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+<text class="th" x="46" y="98">SOURCE</text>
+<text class="th" x="296" y="98">AUTOMATIC / PASSIVE</text>
+<text class="th" x="616" y="98">USER ASKS FOR SOUND</text>
+<text class="th" x="936" y="98">ON DEVICE</text>
+<rect x="34" y="110" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="138">Feed autoplay, related video</text>
+<text class="k" x="296" y="138">Keeps playing muted; read-aloud continues</text>
+<text class="k" x="616" y="138">Tap to play with sound closes read-aloud</text>
+<text class="ok" x="936" y="138">✓ verified</text>
+<rect x="34" y="156" width="1052" height="46" fill="#f4f6f9" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="184">Video tab, full-screen, short drama</text>
+<text class="k" x="296" y="184">—</text>
+<text class="k" x="616" y="176">Entering and playing closes read-aloud, even</text>
+<text class="k" x="616" y="193">if it was paused</text>
+<text class="ok" x="936" y="184">✓ verified</text>
+<rect x="34" y="202" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="230">Ads in articles, feed, radio card</text>
+<text class="k" x="296" y="222">Muted, no session writes; an ad already</text>
+<text class="k" x="296" y="239">audible is muted at start</text>
+<text class="k" x="616" y="230">Speaker unmute closes read-aloud first</text>
+<text class="qa" x="936" y="230">render ✓ · unmute: QA</text>
+<rect x="34" y="248" width="1052" height="46" fill="#f4f6f9" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="276">Profile tab, community video</text>
+<text class="k" x="296" y="276">Autoplay stays muted</text>
+<text class="k" x="616" y="276">Unmute closes read-aloud</text>
+<text class="qa" x="936" y="276">unit tests · QA</text>
+<rect x="34" y="294" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="322">Radio, map radio</text>
+<text class="k" x="296" y="314">Paused when read-aloud starts; clip card</text>
+<text class="k" x="296" y="331">resets</text>
+<text class="k" x="616" y="322">Play closes read-aloud</text>
+<text class="qa" x="936" y="322">unit tests · QA</text>
+<rect x="34" y="340" width="1052" height="46" fill="#f4f6f9" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="368">Video mini player, PiP</text>
+<text class="k" x="296" y="360">Closed at start; no foreground auto-resume;</text>
+<text class="k" x="296" y="377">PiP refused</text>
+<text class="k" x="616" y="368">—</text>
+<text class="qa" x="936" y="368">unit tests · QA</text>
+<rect x="34" y="386" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="414">Media inside the article body</text>
+<text class="k" x="296" y="414">Paused at start; autoplay stays muted</text>
+<text class="k" x="616" y="414">User play in any frame closes read-aloud</text>
+<text class="qa" x="936" y="414">unit tests · QA</text>
+<rect x="34" y="432" width="1052" height="46" fill="#f4f6f9" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="460">Recording</text>
+<text class="k" x="296" y="460">—</text>
+<text class="k" x="616" y="460">Opening the camera closes read-aloud</text>
+<text class="qa" x="936" y="460">unit tests · QA</text>
+<rect x="34" y="478" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="506">Interstitial ads</text>
+<text class="k" x="296" y="498">Pause; resume once on the first of dismiss,</text>
+<text class="k" x="296" y="515">fail, root reappears</text>
+<text class="k" x="616" y="506">—</text>
+<text class="qa" x="936" y="506">unit tests · QA</text>
+<rect x="34" y="524" width="1052" height="46" fill="#eef6f0" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="552">Other apps (system)</text>
+<text class="k" x="296" y="552">Read-aloud start stops the other app</text>
+<text class="k" x="616" y="544">Another app playing pauses read-aloud; it can</text>
+<text class="k" x="616" y="561">resume</text>
+<text class="ok" x="936" y="552">✓ verified</text>
+<rect x="34" y="570" width="1052" height="46" fill="#ffffff" stroke="#e1e6ec"/>
+<text class="kb" x="46" y="598">Lock screen, background</text>
+<text class="k" x="296" y="590">Controls work; playback survives background</text>
+<text class="k" x="296" y="607">and foreground</text>
+<text class="k" x="616" y="598">—</text>
+<text class="ok" x="936" y="598">✓ verified</text>
+<line x1="284" y1="76" x2="284" y2="616" stroke="#d5dbe3"/>
+<line x1="604" y1="76" x2="604" y2="616" stroke="#d5dbe3"/>
+<line x1="924" y1="76" x2="924" y2="616" stroke="#d5dbe3"/>
+<rect x="34" y="634" width="1052" height="44" rx="6" fill="#f4f6f9" stroke="#d5dbe3"/>
+<text class="kb" x="50" y="661">What the picture is for</text>
+<text class="k" x="210" y="661">Two columns, two rules: automatic sound never interrupts read-aloud; a deliberate request always ends it. Nothing in between.</text>
+</svg>
