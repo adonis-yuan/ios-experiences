@@ -14,8 +14,9 @@ radio card, user-recorded video. Each of them already wrote the global
 session might be holding it.
 
 This is the plan, updated as it is built. The client side is now code-complete
-behind a flag; the server field, the narration pipeline, device QA and Android
-are not done. §8 says where things stand and what the on-device survey found.
+behind a flag; the server field, the narration pipeline and Android are not
+done. §8 says where things stand. §9 covers what QA and beta testing found after
+code-complete, what the plan missed, and what to do differently.
 
 ## Summary
 
@@ -44,7 +45,8 @@ add a chunk of engineering.
 | What does *not* end it? | Ads, autoplay, the user leaving the article, a modal covering the player | Playback outlives the page, so the player must live on the window, not in the article |
 | Exception | Interstitial ads pause it and resume it when they go away | The only automatic source allowed to touch it, and the hardest to get right (§4.3) |
 | Collapse behaviour | The bar collapses into a draggable bubble as soon as the user scrolls | No collapse button and no timer; programmatic scrolls must not count |
-| After it finishes | Bar and bubble disappear; speed resets to the default next time | No replay state to model |
+| After it finishes | Bar and bubble disappear | No replay state to model |
+| Speed | Default 1×; the last choice is remembered across articles and launches | The first draft said "default 1.2×, never remembered"; beta testing reversed both (§9) |
 | Process killed in background | Not resumed | Accepted as a known gap in "playback ended" analytics |
 | Scroll to the paragraph being read | Not in this version | Needs the paragraph timeline, deferred with highlighting |
 | VoiceOver | Button shown as usual; VoiceOver wins | Rely on the system's ducking; no auto-collapse while VoiceOver is on |
@@ -152,7 +154,7 @@ the read-aloud module, owned by the app.
   play, headphone play, resume after interruption and resume after rebuild all
   go through the same entry point.
 - `audioTimePitchAlgorithm = .timeDomain` — suited to speech at non-1× rates.
-  Speeds cycle 1.2× → 1.5× → 0.8× → 1×; default 1.2×.
+  Speeds cycle 1× → 1.2× → 1.5× → 0.8×; default 1×, last choice remembered.
 - KVO on `item.status` and `timeControlStatus` to tell "failed" from
   "buffering"; refresh the duration once ready.
 - States: idle, loading, playing, buffering, paused(reason), ended, failed. On
@@ -250,7 +252,7 @@ otherwise backgrounding the app starts automatic PiP and a second voice.
 | In-article video ads (muted by default) | Set the session to `.ambient` on every play — read-aloud became subject to the mute switch and stopped in background | Play muted; category write goes through "set if allowed", which refuses while read-aloud holds the session |
 | In-house ad SDK rendering native ads | Was observed calling `setActive(false)` on every render; a later SDK version releases focus by restoring the category without deactivating | Verified on device with the newer version: zero session writes while native ads rendered during read-aloud. No SDK change needed |
 | Ad unmute button | Verified on device: unmuting made the SDK set `.playback` and activate the session — two voices at once; muting again only restored the category | A deliberate playback: close read-aloud **synchronously** in the tap handler, then unmute. Every speaker toggle goes through one function, locked by a lint rule. If an ad was already audible when read-aloud starts, it is muted, and a forced mute writes back the view's speaker state |
-| Google Mobile Ads video | The SDK manages the session | The app already mutes it globally; while read-aloud plays, also set the SDK's `audioVideoManager.isAudioSessionApplicationManaged = true` (Swift name) so the SDK stops touching the session, and restore it afterwards. The toggle flips correctly; a real video ad has not yet been seen during a test |
+| Google Mobile Ads video | The SDK manages the session | The app already mutes it globally; while read-aloud plays, also set the SDK's `audioVideoManager.isAudioSessionApplicationManaged = true` (Swift name) so the SDK stops touching the session, and restore it afterwards. **Set it on every copy of the SDK**: our ad mediation SDK embeds its own private copy of Google Mobile Ads, which the first fix missed (§9) |
 | Interstitials (on leaving an article, switching tabs, warm start) | May be audible, may change the session | Pause with a **token**; only a resume carrying the current token takes effect, and a user action in between voids it. List every interstitial's show / dismiss mechanism first — a separate window would need `didBecomeHiddenNotification` or `didResignKey`. The survey found all of ours presented full-screen from the root view controller, so three signals suffice: dismiss callback, presentation failure, root reappearing. The first one resumes; the others are no-ops. That last signal covers an ad SDK that does not report a dismissal. No timer |
 | Video tab, full-screen and short-drama players | Wrote `.playback` on appear and `.ambient` on leave | Entering and playing is deliberate: close read-aloud. Leaving writes only if allowed |
 | Muted autoplay video under the article | Posted "video will play" whether muted or not | Passive. Only an *audible* start should announce itself; decide that at one choke point in the video controller |
@@ -374,9 +376,9 @@ button with first-play consent; the player (engine, bar, bubble, lock screen);
 every in-app session writer migrated, including ads, a single choke point for
 video start, the mini player, PiP assertions, community video, both radios,
 in-article media and recording; interstitial pause/resume with a one-shot
-token; overlay avoidance; the four analytics events; the first-run tip; the
-radio's end-of-item fix. Only the arbiter and the audio tab (scheduled for
-removal) still write the session. Two surfaces were deliberately left out: an
+token; overlay avoidance; the full analytics event set; the first-run tip; the
+radio's end-of-item fix. Only the arbiter still writes the session; the audio
+tab has since been removed. Two surfaces were deliberately left out: an
 in-app web-game interstitial and a chat camera.
 
 One review catch worth recording: after the migration, the immersive and
@@ -421,10 +423,86 @@ logged every `setCategory` / `setActive` caller):
 | --- | --- |
 | In-house SDK rendering native ads during read-aloud | Pass: zero session writes, lock-screen playback continued |
 | Unmuting an in-article ad | Fail before the fix: two voices; fixed by the single speaker path |
-| Google Mobile Ads session hand-off | The flag toggles at start and end; no video ad appeared, so not verified |
+| Google Mobile Ads session hand-off | The flag toggled at start and end, but no video ad appeared — so "not verified". Beta testing later found a second, embedded copy of the SDK still writing the session (§9) |
 
 **Not done:** the server field is not merged; the narration pipeline (still the
-critical path) has not started; the device matrix — fifteen items across iOS
-versions, an iPad, AirPods and wired headphones, an account with ad fill, plus
-the consent sheet's swipe and animations — is with QA; a bug where the first-run
-tip does not appear is being fixed; Android has not started.
+critical path) has not started; the fixes from QA's first round (§9) were
+verified on the simulator with probes and still need a device regression; the
+arbiter checks the session *category* but not mode or options, and one ad
+format still resets the mode while muted; four more third-party ad SDKs write
+the session in their binaries with no off switch, and their video paths are
+untested; Android has not started.
+
+## 9. After code-complete: what QA and beta testing found
+
+The first device round produced ten tickets: seven needed no change, one was
+expected behaviour, two were blocking. The PM's beta use found three more
+problems and several design adjustments. Every one of the real bugs passed
+unit tests, mutation checks and code review first. Each one shows a place
+where the plan described the design correctly but missed something in how the
+system actually behaves.
+
+| What broke | Root cause | What the plan missed |
+| --- | --- | --- |
+| **The first-run tip never appeared** | The hook called "did appear" was actually invoked from `viewWillAppear`, before the view was in a window. The single attempt was rejected and never retried. A reading-mode panel or another tooltip on screen had the same effect | The plan said "show once, never alongside the other tip" but not *when the attempt happens and what happens if it is blocked*. A one-shot prompt was modelled as an event instead of a state that waits for its preconditions |
+| **Scrolling past a muted Google ad paused read-aloud** | The ad mediation SDK embeds its own copy of Google Mobile Ads. The hand-off flag was set only on the copy the app links. The embedded copy switched the session to ambient-and-mixable when a muted video scrolled in, and to solo-ambient for an audible interstitial | The session-writer inventory was built from app source and the public SDK API, not from the binaries. The survey row "not verified — no ad appeared" was read as low risk instead of an open risk |
+| **Leaving the video tab mid-load: short drama and read-aloud together** | The shared vendor player remembers "play when loaded" when an asynchronous load starts. A pause during loading is ignored because the state is already paused. When loading completes it calls `play()` directly — a start that never went through the arbiter | The plan inventoried *who writes the session* and *who starts playback on request*, not *who starts playback later on a stale intention*. The device matrix had "enter the video tab", not "leave it before the video loads" |
+| **After background, read-aloud spins forever; play does nothing** | The engine reused an `AVPlayer` that would not start: the rate snapped back to 0 with no error. In the loading state that pause was discarded, so the spinner never ended. Every retry used the same broken player, and once the auto-resume budget ran out there was no way out | The plan handled the *reported* failure (error -11819) but not a player that *silently refuses*. The state machine dropped an event in a state its designer thought impossible, and recovery retried on the broken object instead of replacing it |
+| **UI says playing, no sound** (found while verifying the fix above) | Right after an auto-resume set the rate, `AVPlayer` occasionally reported one stale paused reading. The engine took that as the user's intent and cleared it, so every later external pause went undetected | The plan required a single render state but let two layers own the *playback intent*: the engine cleared it, the state machine set it |
+| **"Bug": the bubble appears over an editor** | When the keyboard is up the bubble fades out, as designed. When the keyboard closed, it came back | The behaviour was in the plan but not in QA's test plan, so expected behaviour was filed as a bug |
+| **Analytics redone** | The product team's event spec arrived after the first four events shipped: twenty more events and six common fields. One ticket was about whether consent status is read before or after the consent event | The analytics contract was not part of the contract step, and the spec did not say whether each state field is read before or after the event |
+
+Smaller beta adjustments followed the same pattern — the decision was made on
+paper and changed once someone used it. The speed default went from 1.2× to 1×
+and is now remembered. On article pages the bar moved up so it no longer covers
+a promo strip above the bottom toolbar; the design spec had not shown that
+strip. The bubble got a flat edge against the screen side.
+
+### How the bugs were found and fixed without a device
+
+None of the three engine and player bugs reproduced naturally on the
+simulator. Each was reproduced with a **temporary, uncommitted probe** that forced
+the timing: a 20-second delay before a video finishes loading, a player told
+to refuse to start, an external pause injected 0.5 s after audio starts. With
+the probe in place, each fix was compared against the unfixed build — "two
+voices for 34 s, rate 1.0" against "rate 0.0" — and only then checked by mutation
+testing. The fix in the shared video player is behind a kill switch, because
+it changes every video in the app, not just read-aloud.
+
+### What to do differently next time
+
+1. **Inventory side effects from the binary, not the source.** Add a swizzle
+   probe that logs every `AVAudioSession` write with a stack trace, then exercise
+   ad-heavy flows. Search linked frameworks for duplicate copies of SDKs you
+   configure, such as an ad SDK bundling its own Google Mobile Ads. Any SDK that
+   writes the session with no off switch belongs on the risk list by name.
+2. **List who starts playback, and when — not just who writes the session.**
+   That includes deferred starts: completion handlers, "resume when loaded",
+   foreground restore. Rule: an asynchronous completion re-reads the caller's
+   *current* intention before acting on the one it captured.
+3. **Treat "not verified" as open.** A survey row that could not be exercised
+   gets an owner and a forced repro (a test ad unit, a probe), not a pass by
+   default.
+4. **Give every state × event pair an answer.** Write the state machine as a
+   table. An event arriving in a "can't happen" state is logged and handled,
+   never silently dropped.
+5. **Escalate recovery.** Retry in place, then replace the object, then back
+   off, then show a failed state with a retry button. "Never produced sound" is
+   a separate failure from "paused after playing", and gets its own
+   diagnostics: player status, item status, error code.
+6. **One owner per intention.** Lower layers report what they observe. Only
+   the state machine changes what the user wants. Treat a KVO reading right
+   after your own write as possibly stale.
+7. **Model one-shot UI as a queue with preconditions** — in a window, nothing
+   covering it. Retry on each signal that a blocker cleared, and record "shown"
+   only when it was actually shown. Test from a fresh install through the real
+   entry point, and give QA a switch that resets the "already shown" flags.
+8. **Put timing variants in the device plan**: slow loads (network
+   throttling), leaving mid-load, background during load, double signals.
+   Each surface in the mutual-exclusion matrix needs a "leave before ready"
+   row next to "enter".
+9. **Ship expected behaviour with the test plan**, so QA can tell a design
+   decision from a defect.
+10. **Pull other teams' specs into the contract step**: the analytics events,
+    the "read before or after" rule for every state field, rounding, and every
+    element anchored to the bottom of each page the overlay appears on.

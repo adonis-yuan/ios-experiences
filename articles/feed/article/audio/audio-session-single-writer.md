@@ -231,8 +231,8 @@ read-aloud field:
 
 The follow-up migrations have since landed, and they changed the shape a little:
 
-- **The exclusion list emptied.** Only the arbiter and the audio tab, which is
-  being removed rather than migrated, still write the session.
+- **The exclusion list emptied.** Only the arbiter writes the session; the
+  audio tab was removed rather than migrated.
 - **Video start got its single choke point.** "About to be audible" is now
   decided in one place in the video controller instead of in page lifecycle
   hooks — the fix the 0.35 s overlap above was waiting for.
@@ -240,12 +240,37 @@ The follow-up migrations have since landed, and they changed the shape a little:
   declares only a narrow protocol of its own (video, radio, interstitial,
   recording, upload overlay); the app delegate injects the implementations at
   launch. No module references the arbiter, and a second lint rule forbids it.
-  Ad speaker toggles got the same treatment: one function, one lint rule.
+  Ad speaker toggles got the same treatment: one function, one lint rule. The
+  team then made it general: a lint rule now rejects new singletons in any
+  feature module, with the existing ones recorded in a baseline.
 - **The classification is the easy thing to get wrong.** After the migration,
   the immersive and short-drama pages *took over* an already-playing video
   without marking the request user-initiated — so read-aloud survived. Review
   caught it. Every new call site of `requestPlayback` deserves the question
   "did the user just ask for sound?"
+
+### Where the single writer was not enough
+
+QA and beta testing later found two cases the arbiter never saw, each for a
+different reason:
+
+- **A start that never asks.** The shared vendor video player remembers "play
+  when loaded" when an asynchronous load begins. If the user left the video tab
+  before the load finished, the pause was ignored, and on completion the player
+  called `play()` directly. The video started in the background, under
+  read-aloud, without ever reaching `requestPlayback`. The lint rule guards
+  *session writes*; nothing guarded *playback starts*. Fix: a caller's pause or
+  stop during loading cancels the deferred start, behind a kill switch because
+  it touches every video.
+- **A writer that is not ours.** An ad mediation SDK bundles a private copy of
+  Google Mobile Ads. The "let the app manage the session" flag was set on the
+  app's copy only; the embedded copy kept switching the session whenever a
+  muted ad scrolled into view, and read-aloud paused. Fix: set the flag on every
+  copy found at runtime, behind one function and a lint rule.
+
+Both lead to the same lesson. A single writer controls only the calls that go
+through it. Also list the *playback starts*, including deferred ones, and the
+*binaries* that write the session, not just the source files.
 
 ## Takeaways
 
