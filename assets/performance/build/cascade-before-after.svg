@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="640" viewBox="0 0 1080 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1e7a46"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .ph{font-size:14px;font-weight:700;fill:#1b2430}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .kr{font-size:13px;font-weight:700;fill:#a5281b}
+    .kg{font-size:13px;font-weight:700;fill:#1e6a3e}
+    .s{font-size:11px;fill:#26303c}
+    .lr{stroke:#c0392b;stroke-width:1.6;fill:none;marker-end:url(#ahr)}
+    .lg{stroke:#1e7a46;stroke-width:1.6;fill:none;marker-end:url(#ahg)}
+  </style>
+  <rect width="1080" height="640" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="36">Adding one feature flag: the central module versus flags declared where they are read</text>
+  <text class="sub" x="34" y="57">Arrows point from the edited module to what recompiles. Counts are Swift files, measured locally.</text>
+
+  <!-- BEFORE panel -->
+  <rect x="24" y="74" width="510" height="456" rx="8" fill="#fdf3f1" stroke="#ecc9c2"/>
+  <text class="ph" x="40" y="98">Before: every flag in one module</text>
+
+  <rect x="60" y="118" width="440" height="40" rx="6" fill="#fff" stroke="#c0392b" stroke-width="1.5"/>
+  <text class="kb" x="280" y="136" text-anchor="middle">App target</text>
+  <text class="s" x="280" y="151" text-anchor="middle">all 166 files: a recursive search path invalidates everything</text>
+
+  <!-- pods grid -->
+  <g fill="#fbe1dc" stroke="#d88a7e">
+    <rect x="60" y="182" width="62" height="28" rx="4"/><rect x="130" y="182" width="62" height="28" rx="4"/><rect x="200" y="182" width="62" height="28" rx="4"/><rect x="270" y="182" width="62" height="28" rx="4"/><rect x="340" y="182" width="62" height="28" rx="4"/><rect x="410" y="182" width="90" height="28" rx="4"/>
+    <rect x="60" y="218" width="62" height="28" rx="4"/><rect x="130" y="218" width="62" height="28" rx="4"/><rect x="200" y="218" width="62" height="28" rx="4"/><rect x="270" y="218" width="62" height="28" rx="4"/><rect x="340" y="218" width="62" height="28" rx="4"/><rect x="410" y="218" width="90" height="28" rx="4"/>
+    <rect x="60" y="254" width="62" height="28" rx="4"/><rect x="130" y="254" width="62" height="28" rx="4"/><rect x="200" y="254" width="62" height="28" rx="4"/><rect x="270" y="254" width="62" height="28" rx="4"/><rect x="340" y="254" width="62" height="28" rx="4"/><rect x="410" y="254" width="90" height="28" rx="4"/>
+  </g>
+  <text class="s" x="455" y="200" text-anchor="middle">git pods</text>
+  <text class="s" x="455" y="236" text-anchor="middle">whole-module</text>
+  <text class="s" x="455" y="272" text-anchor="middle">413 files</text>
+  <text class="k" x="230" y="304" text-anchor="middle">… 154 local pods depend on it</text>
+
+  <rect x="60" y="330" width="440" height="52" rx="6" fill="#fff" stroke="#c0392b" stroke-width="2"/>
+  <text class="kb" x="280" y="352" text-anchor="middle">FeatureGating: every flag, many @objc</text>
+  <text class="s" x="280" y="370" text-anchor="middle">edit one line here</text>
+
+  <line class="lr" x1="91" y1="330" x2="91" y2="286"/>
+  <line class="lr" x1="371" y1="330" x2="371" y2="286"/>
+  <line class="lr" x1="455" y1="330" x2="455" y2="286"/>
+
+  <text class="kr" x="40" y="420">3,928 Swift files, 154 targets</text>
+  <text class="k" x="40" y="442">With @objc members: 5,116. And on CI, every flag merged</text>
+  <text class="k" x="40" y="460">to the development branch made every runner pay this</text>
+  <text class="k" x="40" y="478">once, on the next PR, whatever that PR changed.</text>
+  <text class="k" x="40" y="508">Median per run: ~4,000 files</text>
+
+  <!-- AFTER panel -->
+  <rect x="546" y="74" width="510" height="456" rx="8" fill="#f1f8f3" stroke="#c6e1cf"/>
+  <text class="ph" x="562" y="98">After: each flag lives in the module that reads it</text>
+
+  <rect x="582" y="118" width="440" height="40" rx="6" fill="#fff" stroke="#1e7a46" stroke-width="1.5"/>
+  <text class="kb" x="802" y="136" text-anchor="middle">App target</text>
+  <text class="s" x="802" y="151" text-anchor="middle">only files that use the changed type (after the search-path fix)</text>
+
+  <g fill="#e6f1e9" stroke="#a9cdb5">
+    <rect x="582" y="182" width="62" height="28" rx="4"/><rect x="652" y="182" width="62" height="28" rx="4"/><rect x="722" y="182" width="62" height="28" rx="4"/><rect x="792" y="182" width="62" height="28" rx="4"/><rect x="862" y="182" width="62" height="28" rx="4"/><rect x="932" y="182" width="90" height="28" rx="4"/>
+    <rect x="582" y="218" width="62" height="28" rx="4"/><rect x="652" y="218" width="62" height="28" rx="4"/><rect x="722" y="218" width="62" height="28" rx="4"/><rect x="792" y="218" width="62" height="28" rx="4"/><rect x="862" y="218" width="62" height="28" rx="4"/><rect x="932" y="218" width="90" height="28" rx="4"/>
+  </g>
+  <text class="s" x="977" y="200" text-anchor="middle">git pods</text>
+  <text class="s" x="977" y="236" text-anchor="middle">per-file</text>
+  <text class="k" x="752" y="268" text-anchor="middle">untouched</text>
+
+  <rect x="582" y="290" width="200" height="52" rx="6" fill="#fff" stroke="#1e7a46" stroke-width="2"/>
+  <text class="kb" x="682" y="312" text-anchor="middle">A leaf feature module</text>
+  <text class="s" x="682" y="330" text-anchor="middle">declares its own Gate</text>
+  <rect x="822" y="290" width="200" height="52" rx="6" fill="#fff" stroke="#9aa3b2"/>
+  <text class="kb" x="922" y="312" text-anchor="middle">Another module</text>
+  <text class="s" x="922" y="330" text-anchor="middle">its own Gates, unaffected</text>
+
+  <path class="lg" d="M600,290 C556,270 556,190 600,162"/>
+
+  <text class="kg" x="562" y="420">166 files, 2 targets</text>
+  <text class="k" x="562" y="442">165 of them were the app's fixed overhead, removed</text>
+  <text class="k" x="562" y="460">by the search-path fix. In the app target, one AppGates</text>
+  <text class="k" x="562" y="478">enum split into 12 enums: 35 → 11 app files per flag.</text>
+  <text class="k" x="562" y="508">Median per run: ~1,200 files</text>
+
+  <rect x="24" y="548" width="1032" height="74" rx="8" fill="#f1f3f6" stroke="#d5dbe3"/>
+  <text class="kb" x="40" y="572">What the picture is for</text>
+  <text class="k" x="40" y="592">The cost of an edit is the fan-out of the module it lands in. A registry everything imports, edited constantly, is the worst</text>
+  <text class="k" x="40" y="610">place for small changes. Extensions do not help: changing a type's members recompiles every user of that type.</text>
+</svg>

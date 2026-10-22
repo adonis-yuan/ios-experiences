@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="800" viewBox="0 0 1080 800" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#1e7a46"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .q{font-size:13.5px;font-weight:700;fill:#1b2430}
+    .k{font-size:12.5px;fill:#26303c}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .kr{font-size:12.5px;fill:#a5281b}
+    .krb{font-size:12px;font-weight:700;fill:#a5281b;letter-spacing:.04em}
+    .kgb{font-size:12px;font-weight:700;fill:#1e6a3e;letter-spacing:.04em}
+    .kg{font-size:12.5px;fill:#1e6a3e}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .ln{stroke:#3c4653;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+    .lg{stroke:#1e7a46;stroke-width:1.5;fill:none;marker-end:url(#ahg)}
+    .lr{stroke:#c0392b;stroke-width:1.5;fill:none;stroke-dasharray:6 4;marker-end:url(#ahr)}
+  </style>
+  <rect width="1080" height="800" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="36">What happens to the build cache at the start of a run</text>
+  <text class="sub" x="34" y="57">Left: the checks, in order. Middle: the outcome now. Right, in red: what the same situation used to cost.</text>
+
+  <text class="kgb" x="440" y="90">NOW</text>
+  <text class="krb" x="760" y="90">BEFORE</text>
+
+  <!-- 1 bucket -->
+  <rect x="34" y="102" width="360" height="74" rx="8" fill="#eef2f7" stroke="#b9c6d6"/>
+  <text class="q" x="50" y="128">Which branch does the PR target?</text>
+  <text class="k" x="50" y="148">Release branches may run an older workflow</text>
+  <text class="k" x="50" y="165">with their own Podfile.lock</text>
+  <line class="lg" x1="394" y1="139" x2="430" y2="139"/>
+  <rect x="434" y="110" width="300" height="58" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="134">Separate cache bucket per branch</text>
+  <text class="k" x="448" y="152">type; neither can spoil the other</text>
+  <rect x="754" y="110" width="296" height="58" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="768" y="134">Shared cache: a backport left release</text>
+  <text class="kr" x="768" y="152">Pods behind → 1,266 ObjC/C rebuilt</text>
+
+  <line class="ln" x1="214" y1="176" x2="214" y2="198"/>
+
+  <!-- 2 pods stash -->
+  <rect x="34" y="200" width="360" height="74" rx="8" fill="#eef2f7" stroke="#b9c6d6"/>
+  <text class="q" x="50" y="226">Restore the Pods/ stash</text>
+  <text class="k" x="50" y="246">Moved back into the workspace before</text>
+  <text class="mono" x="50" y="263">pod install</text>
+  <line class="lg" x1="394" y1="237" x2="430" y2="237"/>
+  <rect x="434" y="200" width="300" height="74" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="222">Same inodes and mtimes as last run;</text>
+  <text class="k" x="448" y="240">cancelled before install → written back;</text>
+  <text class="k" x="448" y="258">risky window ~1 min → ~15 s</text>
+  <rect x="754" y="200" width="296" height="74" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="768" y="224">git clean deleted Pods/ every run;</text>
+  <text class="kr" x="768" y="242">all third-party code stale</text>
+  <text class="kr" x="768" y="260">→ 1,279 ObjC/C files per run</text>
+
+  <line class="ln" x1="214" y1="274" x2="214" y2="296"/>
+
+  <!-- 3 previous status -->
+  <rect x="34" y="298" width="360" height="150" rx="8" fill="#eef2f7" stroke="#b9c6d6"/>
+  <text class="q" x="50" y="324">Guard 1: how did the previous run end?</text>
+  <text class="mono" x="66" y="352">success</text>
+  <text class="mono" x="66" y="384">in-progress</text>
+  <text class="k" x="66" y="400">(cancelled, timed out, runner lost)</text>
+  <text class="mono" x="66" y="432">failed</text>
+  <text class="k" x="120" y="432">(real compile failure)</text>
+  <line class="lg" x1="394" y1="348" x2="430" y2="348"/>
+  <line class="lg" x1="394" y1="384" x2="430" y2="384"/>
+  <line class="lr" x1="394" y1="428" x2="430" y2="428"/>
+  <rect x="434" y="330" width="300" height="34" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="352">Keep DerivedData</text>
+  <rect x="434" y="368" width="300" height="34" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="390">Keep DerivedData</text>
+  <rect x="434" y="410" width="300" height="34" rx="6" fill="#fff6e8" stroke="#e3c48f"/>
+  <text class="k" x="448" y="432">Wipe: the cache may be corrupt</text>
+  <rect x="754" y="330" width="296" height="114" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="768" y="354">Marker written only if build AND</text>
+  <text class="kr" x="768" y="372">tests passed. A failing test or a</text>
+  <text class="kr" x="768" y="390">cancel from a new push → wipe.</text>
+  <text class="kr" x="768" y="416">32 of 57 runs started by wiping</text>
+  <text class="kr" x="768" y="434">DerivedData</text>
+
+  <line class="ln" x1="214" y1="448" x2="214" y2="470"/>
+
+  <!-- 4 fingerprint -->
+  <rect x="34" y="472" width="360" height="118" rx="8" fill="#eef2f7" stroke="#b9c6d6"/>
+  <text class="q" x="50" y="498">Guard 2: did any module map change?</text>
+  <text class="k" x="66" y="526">no (lockfile alone may differ)</text>
+  <text class="k" x="66" y="570">yes (a pod added or removed)</text>
+  <line class="lg" x1="394" y1="522" x2="430" y2="522"/>
+  <line class="lr" x1="394" y1="566" x2="430" y2="566"/>
+  <rect x="434" y="500" width="300" height="42" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="526">Keep the module cache: 0 Swift, 15 s</text>
+  <rect x="434" y="548" width="300" height="38" rx="6" fill="#fff6e8" stroke="#e3c48f"/>
+  <text class="k" x="448" y="572">Clear only ModuleCache.noindex</text>
+  <rect x="754" y="480" width="296" height="106" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="768" y="504">Fingerprint included both lockfiles.</text>
+  <text class="kr" x="768" y="522">First: any change wiped DerivedData.</text>
+  <text class="kr" x="768" y="540">Then: cleared the module cache, and</text>
+  <text class="kr" x="768" y="558">a lockfile-only change still rebuilt</text>
+  <text class="kr" x="768" y="576">~4,400 Swift files</text>
+
+  <line class="ln" x1="214" y1="590" x2="214" y2="612"/>
+
+  <!-- 5 pch -->
+  <rect x="34" y="614" width="360" height="64" rx="8" fill="#eef2f7" stroke="#b9c6d6"/>
+  <text class="q" x="50" y="640">Did module-map mtimes move?</text>
+  <text class="k" x="50" y="660">Checked against a stamp from last run</text>
+  <line class="lg" x1="394" y1="646" x2="430" y2="646"/>
+  <rect x="434" y="620" width="300" height="52" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="448" y="642">Delete the app's PCH so it is</text>
+  <text class="k" x="448" y="660">rebuilt; otherwise keep it</text>
+  <rect x="754" y="620" width="296" height="52" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="768" y="642">Clang rejected the stale PCH and</text>
+  <text class="kr" x="768" y="660">Xcode never rebuilt it → build failed</text>
+
+  <rect x="24" y="700" width="1032" height="80" rx="8" fill="#f1f3f6" stroke="#d5dbe3"/>
+  <text class="kb" x="40" y="724">What the picture is for</text>
+  <text class="k" x="40" y="744">Every old rule cleared on doubt ("didn't finish", "lockfile differs"). Each new rule clears only on evidence the cache</text>
+  <text class="k" x="40" y="762">is wrong (a compile failure, a changed module map), and each relaxed rule was checked with a run that should still clear.</text>
+</svg>

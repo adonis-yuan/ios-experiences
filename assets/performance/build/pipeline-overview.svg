@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="720" viewBox="0 0 1080 720" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .hd{font-size:12px;font-weight:700;fill:#5d6875;letter-spacing:.04em}
+    .st{font-size:14px;font-weight:700;fill:#1b2430}
+    .sn{font-size:13px;font-weight:700;fill:#3c4653}
+    .k{font-size:12.5px;fill:#26303c}
+    .kr{font-size:12.5px;fill:#a5281b}
+    .kg{font-size:12.5px;font-weight:700;fill:#1e6a3e}
+    .ln{stroke:#3c4653;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+  </style>
+  <rect width="1080" height="720" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="36">The PR build job: where the time was wasted, and what changed at each step</text>
+  <text class="sub" x="34" y="57">Steps run top to bottom. Red: what used to happen. Green: the fix and its measured effect.</text>
+
+  <text class="hd" x="70" y="88">STEP</text>
+  <text class="hd" x="300" y="88">WHAT WASTED TIME</text>
+  <text class="hd" x="680" y="88">FIX → EFFECT</text>
+
+  <!-- rows: y0 = 98 + i*92 -->
+  <!-- 1 -->
+  <rect x="30" y="98" width="240" height="76" rx="6" fill="#eef2f7" stroke="#b9c6d6"/>
+  <circle cx="54" cy="136" r="13" fill="#fff" stroke="#3c4653" stroke-width="1.5"/><text class="sn" x="54" y="141" text-anchor="middle">1</text>
+  <text class="st" x="78" y="141">Checkout</text>
+  <rect x="290" y="98" width="370" height="76" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="304" y="124">Workspace deleted and re-cloned (a review</text>
+  <text class="kr" x="304" y="142">job left a token in the remote URL), or another</text>
+  <text class="kr" x="304" y="160">job's checkout rewrote file mtimes</text>
+  <rect x="676" y="98" width="374" height="76" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="690" y="124">Restore the remote URL; light jobs get their</text>
+  <text class="k" x="690" y="142">own runner and directory</text>
+  <text class="kg" x="690" y="162">Re-clones: 37 of 128 runs → 0</text>
+
+  <line class="ln" x1="150" y1="174" x2="150" y2="188"/>
+
+  <!-- 2 -->
+  <rect x="30" y="190" width="240" height="76" rx="6" fill="#eef2f7" stroke="#b9c6d6"/>
+  <circle cx="54" cy="228" r="13" fill="#fff" stroke="#3c4653" stroke-width="1.5"/><text class="sn" x="54" y="233" text-anchor="middle">2</text>
+  <text class="st" x="78" y="225">Restore Pods,</text>
+  <text class="st" x="78" y="243">pod install</text>
+  <rect x="290" y="190" width="370" height="76" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="304" y="216">Pods/ recreated every run, so all third-party</text>
+  <text class="kr" x="304" y="234">code was stale; backports and cancellations</text>
+  <text class="kr" x="304" y="252">lost the stash</text>
+  <rect x="676" y="190" width="374" height="76" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="690" y="216">Stash outside the workspace; one bucket per</text>
+  <text class="k" x="690" y="234">target branch; skip unneeded spec-repo update</text>
+  <text class="kg" x="690" y="254">Third-party ObjC/C 1,279 → ~20; prep 0–2 s</text>
+
+  <line class="ln" x1="150" y1="266" x2="150" y2="280"/>
+
+  <!-- 3 -->
+  <rect x="30" y="282" width="240" height="76" rx="6" fill="#eef2f7" stroke="#b9c6d6"/>
+  <circle cx="54" cy="320" r="13" fill="#fff" stroke="#3c4653" stroke-width="1.5"/><text class="sn" x="54" y="325" text-anchor="middle">3</text>
+  <text class="st" x="78" y="317">Guard 1:</text>
+  <text class="st" x="78" y="335">previous run's state</text>
+  <rect x="290" y="282" width="370" height="76" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="304" y="308">Any non-success wiped DerivedData, even a</text>
+  <text class="kr" x="304" y="326">failing test or a cancel caused by a new push</text>
+  <rect x="676" y="282" width="374" height="76" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="690" y="308">Split build from test; status file with</text>
+  <text class="k" x="690" y="326">in-progress / success / failed</text>
+  <text class="kg" x="690" y="346">Wipes: 32 of 57 runs → 0 of 30</text>
+
+  <line class="ln" x1="150" y1="358" x2="150" y2="372"/>
+
+  <!-- 4 -->
+  <rect x="30" y="374" width="240" height="76" rx="6" fill="#eef2f7" stroke="#b9c6d6"/>
+  <circle cx="54" cy="412" r="13" fill="#fff" stroke="#3c4653" stroke-width="1.5"/><text class="sn" x="54" y="417" text-anchor="middle">4</text>
+  <text class="st" x="78" y="409">Guard 2:</text>
+  <text class="st" x="78" y="427">pods fingerprint</text>
+  <rect x="290" y="374" width="370" height="76" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="304" y="400">A different pod set on the shared runner</text>
+  <text class="kr" x="304" y="418">wiped DerivedData; later only the module</text>
+  <text class="kr" x="304" y="436">cache, which still cost ~4,400 Swift files</text>
+  <rect x="676" y="374" width="374" height="76" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="690" y="400">Clear only the module cache; fingerprint</text>
+  <text class="k" x="690" y="418">module maps, not lockfiles</text>
+  <text class="kg" x="690" y="438">Lockfile-only change: ~4,400 Swift → 0</text>
+
+  <line class="ln" x1="150" y1="450" x2="150" y2="464"/>
+
+  <!-- 5 -->
+  <rect x="30" y="466" width="240" height="76" rx="6" fill="#fde9dc" stroke="#d9874f" stroke-width="1.5"/>
+  <circle cx="54" cy="504" r="13" fill="#fff" stroke="#c2410c" stroke-width="1.5"/><text class="sn" x="54" y="509" text-anchor="middle" fill="#c2410c">5</text>
+  <text class="st" x="78" y="500">Compile</text>
+  <text class="k" x="78" y="518">where the minutes go</text>
+  <rect x="290" y="466" width="370" height="76" rx="6" fill="#fdf0ee" stroke="#e6b8b1"/>
+  <text class="kr" x="304" y="492">One flag change rebuilt ~4,000 Swift files;</text>
+  <text class="kr" x="304" y="510">the app's 166 and three git pods' 413 files</text>
+  <text class="kr" x="304" y="528">rebuilt in full on any upstream change</text>
+  <rect x="676" y="466" width="374" height="76" rx="6" fill="#eef7f1" stroke="#b5d8c1"/>
+  <text class="k" x="690" y="492">Flags declared where read; no recursive</text>
+  <text class="k" x="690" y="510">search path; git pods compile per file</text>
+  <text class="kg" x="690" y="530">Files rebuilt per run: ~4,000 → ~1,200</text>
+
+  <line class="ln" x1="150" y1="542" x2="150" y2="556"/>
+
+  <!-- 6 -->
+  <rect x="30" y="558" width="240" height="64" rx="6" fill="#eef2f7" stroke="#b9c6d6"/>
+  <circle cx="54" cy="590" r="13" fill="#fff" stroke="#3c4653" stroke-width="1.5"/><text class="sn" x="54" y="595" text-anchor="middle">6</text>
+  <text class="st" x="78" y="595">Run tests</text>
+  <rect x="290" y="558" width="370" height="64" rx="6" fill="#f4f5f7" stroke="#cdd3db"/>
+  <text class="k" x="304" y="586">Now the longest step on the fast devices:</text>
+  <text class="k" x="304" y="604">3–4 minutes of unit tests</text>
+  <rect x="676" y="558" width="374" height="64" rx="6" fill="#f4f5f7" stroke="#cdd3db"/>
+  <text class="k" x="690" y="595">Not addressed yet</text>
+
+  <rect x="24" y="642" width="1032" height="58" rx="8" fill="#f1f3f6" stroke="#d5dbe3"/>
+  <text class="kb" x="40" y="666" style="font-size:12.5px;font-weight:700;fill:#1b2430">What the picture is for</text>
+  <text class="k" x="40" y="686">Steps 1–4 do almost no work themselves, but each one decided how much of step 5 every run had to redo.</text>
+</svg>
