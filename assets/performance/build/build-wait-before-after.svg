@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .t{font-size:30px;font-weight:700;fill:#0b0b0b}
+    .sub{font-size:16px;fill:#52514e}
+    .ph{font-size:19px;font-weight:700;fill:#0b0b0b}
+    .phs{font-size:14px;fill:#52514e}
+    .lab{font-size:16px;font-weight:600;fill:#0b0b0b}
+    .val{font-size:16px;fill:#0b0b0b;font-variant-numeric:tabular-nums}
+    .pct{font-size:17px;font-weight:700;fill:#0b0b0b;font-variant-numeric:tabular-nums}
+    .tick{font-size:13px;fill:#6b6a65;font-variant-numeric:tabular-nums}
+    .lg{font-size:15px;fill:#52514e}
+    .fn{font-size:13px;fill:#6b6a65}
+    .grid{stroke:#e7e6e2;stroke-width:1}
+    .base{stroke:#bdbcb6;stroke-width:1}
+    .conn{stroke:#b9c3d0;stroke-width:3;stroke-linecap:round}
+    .before{fill:#6a9de3;stroke:#fcfcfb;stroke-width:2}
+    .after{fill:#1f5fae;stroke:#fcfcfb;stroke-width:2}
+  </style>
+  <rect width="1200" height="675" fill="#fcfcfb"/>
+
+  <text class="t" x="40" y="62">iOS PR check: build time and queue wait, before vs after</text>
+  <text class="sub" x="40" y="92">Three self-hosted Mac runners. Before: Oct 13–16. After: once all four batches of changes had landed.</text>
+
+  <!-- legend -->
+  <circle class="before" cx="48" cy="126" r="8"/><text class="lg" x="62" y="131">Before</text>
+  <circle class="after" cx="136" cy="126" r="8"/><text class="lg" x="150" y="131">After</text>
+
+  <!-- ===== Left panel: build time ===== -->
+  <text class="ph" x="40" y="186">Build time</text>
+  <text class="phs" x="40" y="207">Median total job time per runner, minutes</text>
+
+  <!-- grid: x = 150 + v/50*230 -->
+  <line class="grid" x1="150" y1="228" x2="150" y2="470"/>
+  <line class="grid" x1="196" y1="228" x2="196" y2="470"/>
+  <line class="grid" x1="242" y1="228" x2="242" y2="470"/>
+  <line class="grid" x1="288" y1="228" x2="288" y2="470"/>
+  <line class="grid" x1="334" y1="228" x2="334" y2="470"/>
+  <line class="grid" x1="380" y1="228" x2="380" y2="470"/>
+  <line class="base" x1="150" y1="470" x2="380" y2="470"/>
+  <text class="tick" x="150" y="490" text-anchor="middle">0</text>
+  <text class="tick" x="196" y="490" text-anchor="middle">10</text>
+  <text class="tick" x="242" y="490" text-anchor="middle">20</text>
+  <text class="tick" x="288" y="490" text-anchor="middle">30</text>
+  <text class="tick" x="334" y="490" text-anchor="middle">40</text>
+  <text class="tick" x="380" y="490" text-anchor="middle">50 min</text>
+
+  <!-- Device 1: 11.9 -> 4.5 -->
+  <text class="lab" x="40" y="275">Device 1</text>
+  <line class="conn" x1="170.7" y1="270" x2="204.7" y2="270"/>
+  <circle class="before" cx="204.7" cy="270" r="9"/>
+  <circle class="after" cx="170.7" cy="270" r="9"/>
+  <text class="val" x="398" y="275">11.9 → 4.5 min</text>
+  <text class="pct" x="590" y="275" text-anchor="end">−62%</text>
+
+  <!-- Device 2: 21.9 -> 6.1 -->
+  <text class="lab" x="40" y="355">Device 2</text>
+  <line class="conn" x1="178.1" y1="350" x2="250.7" y2="350"/>
+  <circle class="before" cx="250.7" cy="350" r="9"/>
+  <circle class="after" cx="178.1" cy="350" r="9"/>
+  <text class="val" x="398" y="355">21.9 → 6.1 min</text>
+  <text class="pct" x="590" y="355" text-anchor="end">−72%</text>
+
+  <!-- Device 3: 45.6 -> 11.7 -->
+  <text class="lab" x="40" y="435">Device 3</text>
+  <line class="conn" x1="203.8" y1="430" x2="359.8" y2="430"/>
+  <circle class="before" cx="359.8" cy="430" r="9"/>
+  <circle class="after" cx="203.8" cy="430" r="9"/>
+  <text class="val" x="398" y="435">45.6 → 11.7 min</text>
+  <text class="pct" x="590" y="435" text-anchor="end">−74%</text>
+
+  <!-- divider -->
+  <line x1="620" y1="176" x2="620" y2="500" stroke="#e7e6e2" stroke-width="1"/>
+
+  <!-- ===== Right panel: queue wait ===== -->
+  <text class="ph" x="650" y="186">Queue wait</text>
+  <text class="phs" x="650" y="207">Job created → picked up by a runner, whole pool, minutes</text>
+
+  <!-- grid: x = 730 + v/110*230 -->
+  <line class="grid" x1="730" y1="228" x2="730" y2="470"/>
+  <line class="grid" x1="782.3" y1="228" x2="782.3" y2="470"/>
+  <line class="grid" x1="834.5" y1="228" x2="834.5" y2="470"/>
+  <line class="grid" x1="886.8" y1="228" x2="886.8" y2="470"/>
+  <line class="grid" x1="939.1" y1="228" x2="939.1" y2="470"/>
+  <line class="base" x1="730" y1="470" x2="960" y2="470"/>
+  <text class="tick" x="730" y="490" text-anchor="middle">0</text>
+  <text class="tick" x="782.3" y="490" text-anchor="middle">25</text>
+  <text class="tick" x="834.5" y="490" text-anchor="middle">50</text>
+  <text class="tick" x="886.8" y="490" text-anchor="middle">75</text>
+  <text class="tick" x="939.1" y="490" text-anchor="middle">100 min</text>
+
+  <!-- Median: 1.3 min -> 3 s -->
+  <text class="lab" x="650" y="275">Median</text>
+  <circle class="before" cx="732.7" cy="270" r="9"/>
+  <circle class="after" cx="730.1" cy="270" r="9" fill-opacity="0.9"/>
+  <text class="val" x="978" y="275">1.3 min → 3 s</text>
+  <text class="pct" x="1160" y="275" text-anchor="end">−96%</text>
+
+  <!-- p90: 31.0 -> 2.0 -->
+  <text class="lab" x="650" y="355">p90</text>
+  <line class="conn" x1="734.2" y1="350" x2="794.8" y2="350"/>
+  <circle class="before" cx="794.8" cy="350" r="9"/>
+  <circle class="after" cx="734.2" cy="350" r="9"/>
+  <text class="val" x="978" y="355">31.0 → 2.0 min</text>
+  <text class="pct" x="1160" y="355" text-anchor="end">−94%</text>
+
+  <!-- Max: 106.3 -> 2.6 -->
+  <text class="lab" x="650" y="435">Longest</text>
+  <line class="conn" x1="735.4" y1="430" x2="952.3" y2="430"/>
+  <circle class="before" cx="952.3" cy="430" r="9"/>
+  <circle class="after" cx="735.4" cy="430" r="9"/>
+  <text class="val" x="978" y="435">106.3 → 2.6 min</text>
+  <text class="pct" x="1160" y="435" text-anchor="end">−98%</text>
+
+  <!-- footnote -->
+  <line x1="40" y1="548" x2="1160" y2="548" stroke="#e7e6e2" stroke-width="1"/>
+  <text class="fn" x="40" y="576">Build time: successful PR runs against the main branch; median, before n = 27–48 per runner, after n = 4–15 per runner.</text>
+  <text class="fn" x="40" y="598">Queue wait: all runs incl. failed and cancelled; before n = 159 (Oct 13–16), after n = 21 (first day with all three runners back), an early sample.</text>
+  <text class="fn" x="40" y="620">Waits fell mainly because jobs got shorter, so each runner is held for less time.</text>
+</svg>

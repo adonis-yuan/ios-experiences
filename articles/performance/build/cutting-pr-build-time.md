@@ -28,6 +28,8 @@ Baseline is Oct 13–16, before any change landed. "Now" for devices 1 and 2 is
 the window after the fourth batch of changes (Oct 20 evening to Oct 21 morning);
 for device 3 it is Oct 22, after its Xcode upgrade.
 
+![Build time per runner and queue wait across the pool, before and after](../../../assets/performance/build/build-wait-before-after.png)
+
 **Compile time** runs from the start of the build step to the first test
 starting. Only successful runs against the main development branch count.
 
