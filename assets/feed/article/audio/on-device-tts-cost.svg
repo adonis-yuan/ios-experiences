@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="660" viewBox="0 0 1080 660" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<rect width="1080" height="660" fill="#fcfcfb"/>
+<text x="60" y="70" font-size="34" font-weight="700" fill="#0b0b0b">Server-side, self-hosted Kokoro is ~40× cheaper</text>
+<text x="60" y="118" font-size="20" fill="#52514e">Estimated monthly cost at 10,000 articles a day, ~6,000 characters and 5.5 min</text>
+<text x="60" y="146" font-size="20" fill="#52514e">of audio each. Public list prices; an estimate, not a bill.</text>
+<text x="60" y="214" font-size="21" font-weight="700" fill="#0b0b0b">Estimated cost per month</text>
+<line x1="340.0" y1="232" x2="340.0" y2="456" stroke="#e4e3df"/>
+<text x="340.0" y="478" font-size="16" fill="#8a8984" text-anchor="middle">$0</text>
+<line x1="520.0" y1="232" x2="520.0" y2="456" stroke="#e4e3df"/>
+<text x="520.0" y="478" font-size="16" fill="#8a8984" text-anchor="middle">$10k</text>
+<line x1="700.0" y1="232" x2="700.0" y2="456" stroke="#e4e3df"/>
+<text x="700.0" y="478" font-size="16" fill="#8a8984" text-anchor="middle">$20k</text>
+<line x1="880.0" y1="232" x2="880.0" y2="456" stroke="#e4e3df"/>
+<text x="880.0" y="478" font-size="16" fill="#8a8984" text-anchor="middle">$30k</text>
+<text x="60" y="261.0" font-size="19" font-weight="600" fill="#0b0b0b">OpenAI tts-1</text>
+<text x="60" y="283.0" font-size="16" fill="#52514e">$15 / 1M characters</text>
+<path d="M340,238 H822.0 Q826.0,238 826.0,242 V286 Q826.0,290 822.0,290 H340 Z" fill="#a8a7a1"/>
+<text x="836.0" y="271.0" font-size="20" font-weight="700" fill="#0b0b0b">$27,000</text>
+<text x="60" y="341.0" font-size="19" font-weight="600" fill="#0b0b0b">OpenAI gpt-4o-mini-tts</text>
+<text x="60" y="363.0" font-size="16" fill="#52514e">~$0.015 / minute</text>
+<path d="M340,318 H786.0 Q790.0,318 790.0,322 V366 Q790.0,370 786.0,370 H340 Z" fill="#a8a7a1"/>
+<text x="800.0" y="351.0" font-size="20" font-weight="700" fill="#0b0b0b">$25,000</text>
+<text x="60" y="421.0" font-size="19" font-weight="600" fill="#0b0b0b">Self-hosted Kokoro</text>
+<text x="60" y="443.0" font-size="16" fill="#52514e">1 L4-class GPU, ~$0.8 / h</text>
+<path d="M340,398 H346.8 Q350.8,398 350.8,402 V446 Q350.8,450 346.8,450 H340 Z" fill="#2a78d6"/>
+<text x="360.8" y="431.0" font-size="20" font-weight="700" fill="#0b0b0b">$600</text>
+<rect x="60" y="502" width="960" height="88" rx="8" fill="#f0efec"/>
+<text x="84" y="542" font-size="20" fill="#0b0b0b">Uses Kokoro's own claim of 35–49× real time on a GPU. Excludes engineering</text>
+<text x="84" y="572" font-size="20" fill="#0b0b0b">and operations time.</text>
+<text x="60" y="630" font-size="16" fill="#8a8984">Estimate from public list prices</text>
+</svg>

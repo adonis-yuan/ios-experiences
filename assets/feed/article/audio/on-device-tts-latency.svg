@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="832" viewBox="0 0 1080 832" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<rect width="1080" height="832" fill="#fcfcfb"/>
+<text x="60" y="70" font-size="34" font-weight="700" fill="#0b0b0b">Tap to first audio: streaming turns 164 s into 4.8 s</text>
+<text x="60" y="118" font-size="20" fill="#52514e">One 987-word article, cache cleared each run. Note the two panels use different scales.</text>
+<text x="60" y="182" font-size="21" font-weight="700" fill="#0b0b0b">Streaming off: synthesize the whole article, then play</text>
+<line x1="340.0" y1="200" x2="340.0" y2="372" stroke="#e4e3df"/>
+<text x="340.0" y="394" font-size="16" fill="#8a8984" text-anchor="middle">0 s</text>
+<line x1="520.0" y1="200" x2="520.0" y2="372" stroke="#e4e3df"/>
+<text x="520.0" y="394" font-size="16" fill="#8a8984" text-anchor="middle">60 s</text>
+<line x1="700.0" y1="200" x2="700.0" y2="372" stroke="#e4e3df"/>
+<text x="700.0" y="394" font-size="16" fill="#8a8984" text-anchor="middle">120 s</text>
+<line x1="880.0" y1="200" x2="880.0" y2="372" stroke="#e4e3df"/>
+<text x="880.0" y="394" font-size="16" fill="#8a8984" text-anchor="middle">180 s</text>
+<text x="60" y="233.0" font-size="19" font-weight="600" fill="#0b0b0b">iOS system voice</text>
+<path d="M340,206 H346.65 Q350.65,206 350.65,210 V242 Q350.65,246 346.65,246 H340 Z" fill="#1baf7a"/>
+<text x="360.65" y="233.0" font-size="20" font-weight="700" fill="#0b0b0b">3.55 s</text>
+<text x="60" y="293.0" font-size="19" font-weight="600" fill="#0b0b0b">Matcha + Vocos</text>
+<path d="M340,266 H365.43 Q369.43,266 369.43,270 V302 Q369.43,306 365.43,306 H340 Z" fill="#eb6834"/>
+<text x="379.43" y="293.0" font-size="20" font-weight="700" fill="#0b0b0b">9.81 s</text>
+<text x="60" y="353.0" font-size="19" font-weight="600" fill="#0b0b0b">Kokoro</text>
+<path d="M340,326 H827.13 Q831.13,326 831.13,330 V362 Q831.13,366 827.13,366 H340 Z" fill="#2a78d6"/>
+<text x="841.13" y="353.0" font-size="20" font-weight="700" fill="#0b0b0b">164 s</text>
+<text x="60" y="438" font-size="21" font-weight="700" fill="#0b0b0b">Streaming on: play sentence 1 while the rest synthesizes</text>
+<line x1="340.0" y1="456" x2="340.0" y2="628" stroke="#e4e3df"/>
+<text x="340.0" y="650" font-size="16" fill="#8a8984" text-anchor="middle">0 s</text>
+<line x1="520.0" y1="456" x2="520.0" y2="628" stroke="#e4e3df"/>
+<text x="520.0" y="650" font-size="16" fill="#8a8984" text-anchor="middle">2 s</text>
+<line x1="700.0" y1="456" x2="700.0" y2="628" stroke="#e4e3df"/>
+<text x="700.0" y="650" font-size="16" fill="#8a8984" text-anchor="middle">4 s</text>
+<line x1="880.0" y1="456" x2="880.0" y2="628" stroke="#e4e3df"/>
+<text x="880.0" y="650" font-size="16" fill="#8a8984" text-anchor="middle">6 s</text>
+<text x="60" y="489.0" font-size="19" font-weight="600" fill="#0b0b0b">iOS system voice</text>
+<path d="M340,462 H353.1 Q357.1,462 357.1,466 V498 Q357.1,502 353.1,502 H340 Z" fill="#1baf7a"/>
+<text x="367.1" y="489.0" font-size="20" font-weight="700" fill="#0b0b0b">0.19 s</text>
+<text x="60" y="549.0" font-size="19" font-weight="600" fill="#0b0b0b">Matcha + Vocos</text>
+<path d="M340,522 H358.5 Q362.5,522 362.5,526 V558 Q362.5,562 358.5,562 H340 Z" fill="#eb6834"/>
+<text x="372.5" y="549.0" font-size="20" font-weight="700" fill="#0b0b0b">0.25 s</text>
+<text x="60" y="609.0" font-size="19" font-weight="600" fill="#0b0b0b">Kokoro</text>
+<path d="M340,582 H769.8 Q773.8,582 773.8,586 V618 Q773.8,622 769.8,622 H340 Z" fill="#2a78d6"/>
+<text x="783.8" y="609.0" font-size="20" font-weight="700" fill="#0b0b0b">4.82 s</text>
+<rect x="60" y="674" width="960" height="88" rx="8" fill="#f0efec"/>
+<text x="84" y="714" font-size="20" fill="#0b0b0b">Kokoro needs ~0.5 s of compute per second of audio, so synthesizing a whole</text>
+<text x="84" y="744" font-size="20" fill="#0b0b0b">article up front takes minutes. Streaming hides all but the first sentence.</text>
+<text x="60" y="802" font-size="16" fill="#8a8984">iOS simulator on an Apple-silicon Mac, 4 threads. Not yet measured on a physical device.</text>
+</svg>

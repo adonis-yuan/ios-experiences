@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="738" viewBox="0 0 1080 738" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<rect width="1080" height="738" fill="#fcfcfb"/>
+<text x="60" y="70" font-size="34" font-weight="700" fill="#0b0b0b">The build carries ~300 MB of models plus a runtime</text>
+<text x="60" y="118" font-size="20" fill="#52514e">Internal builds only. None of this ships in the App Store build.</text>
+<text x="60" y="186" font-size="21" font-weight="700" fill="#0b0b0b">Size on disk</text>
+<line x1="340.0" y1="204" x2="340.0" y2="534" stroke="#e4e3df"/>
+<text x="340.0" y="556" font-size="16" fill="#8a8984" text-anchor="middle">0 MB</text>
+<line x1="475.0" y1="204" x2="475.0" y2="534" stroke="#e4e3df"/>
+<text x="475.0" y="556" font-size="16" fill="#8a8984" text-anchor="middle">50 MB</text>
+<line x1="610.0" y1="204" x2="610.0" y2="534" stroke="#e4e3df"/>
+<text x="610.0" y="556" font-size="16" fill="#8a8984" text-anchor="middle">100 MB</text>
+<line x1="745.0" y1="204" x2="745.0" y2="534" stroke="#e4e3df"/>
+<text x="745.0" y="556" font-size="16" fill="#8a8984" text-anchor="middle">150 MB</text>
+<line x1="880.0" y1="204" x2="880.0" y2="534" stroke="#e4e3df"/>
+<text x="880.0" y="556" font-size="16" fill="#8a8984" text-anchor="middle">200 MB</text>
+<text x="60" y="230.0" font-size="19" font-weight="600" fill="#0b0b0b">Kokoro model</text>
+<text x="60" y="252.0" font-size="16" fill="#52514e">int8, English</text>
+<path d="M340,210 H746.4000000000001 Q750.4000000000001,210 750.4000000000001,214 V252 Q750.4000000000001,256 746.4000000000001,256 H340 Z" fill="#2a78d6"/>
+<text x="760.4000000000001" y="240.0" font-size="20" font-weight="700" fill="#0b0b0b">152 MB</text>
+<text x="60" y="298.0" font-size="19" font-weight="600" fill="#0b0b0b">Matcha + Vocos</text>
+<text x="60" y="320.0" font-size="16" fill="#52514e">acoustic model + vocoder</text>
+<path d="M340,278 H743.7 Q747.7,278 747.7,282 V320 Q747.7,324 743.7,324 H340 Z" fill="#eb6834"/>
+<text x="757.7" y="308.0" font-size="20" font-weight="700" fill="#0b0b0b">151 MB</text>
+<text x="60" y="366.0" font-size="19" font-weight="600" fill="#0b0b0b">Runtime SDK</text>
+<text x="60" y="388.0" font-size="16" fill="#52514e">sherpa-onnx + ONNX Runtime</text>
+<path d="M340,346 H858.45 Q862.45,346 862.45,350 V388 Q862.45,392 858.45,392 H340 Z" fill="#a8a7a1"/>
+<text x="872.45" y="376.0" font-size="20" font-weight="700" fill="#0b0b0b">193.5 MB</text>
+<text x="60" y="434.0" font-size="19" font-weight="600" fill="#0b0b0b">Runtime SDK in git</text>
+<text x="60" y="456.0" font-size="16" fill="#52514e">compressed</text>
+<path d="M340,414 H441.84000000000003 Q445.84000000000003,414 445.84000000000003,418 V456 Q445.84000000000003,460 441.84000000000003,460 H340 Z" fill="#a8a7a1"/>
+<text x="455.84000000000003" y="444.0" font-size="20" font-weight="700" fill="#0b0b0b">39.2 MB</text>
+<text x="60" y="502.0" font-size="19" font-weight="600" fill="#0b0b0b">Linked code</text>
+<text x="60" y="524.0" font-size="16" fill="#52514e">in internal builds</text>
+<path d="M340,482 H438.6 Q442.6,482 442.6,486 V524 Q442.6,528 438.6,528 H340 Z" fill="#a8a7a1"/>
+<text x="452.6" y="512.0" font-size="20" font-weight="700" fill="#0b0b0b">38 MB</text>
+<rect x="60" y="580" width="960" height="88" rx="8" fill="#f0efec"/>
+<text x="84" y="620" font-size="20" fill="#0b0b0b">The models dominate. Where they are fetched, and how often, decides what</text>
+<text x="84" y="650" font-size="20" fill="#0b0b0b">the size actually costs.</text>
+<text x="60" y="708" font-size="16" fill="#8a8984">Measured from the internal build's inputs</text>
+</svg>

@@ -44,6 +44,8 @@ device yet; expect a phone to be several times slower.
 One 987-word article, the cache cleared before each run, timed from the tap
 to the start of playback.
 
+![Bar charts of tap to first audio. Streaming off: system voice 3.55 s, Matcha 9.81 s, Kokoro 164 s. Streaming on: 0.19 s, 0.25 s and 4.82 s](../../../../assets/feed/article/audio/on-device-tts-latency.png)
+
 | Engine | Streaming off | Streaming on | First model load | Audio length |
 | --- | --- | --- | --- | --- |
 | iOS system voice | 3.55 s | 0.19 s | — | 328 s |
@@ -66,6 +68,8 @@ Two things in this table are easy to misread:
 
 Six news sentences, about 30 s of audio. RTF (real-time factor) is synthesis
 time divided by audio length: below 1 is faster than real time.
+
+![Bar charts. Real-time factor: Matcha 0.023, Kokoro 0.487. Audio from the same 215 paragraphs: system voice 45.3 min, Matcha 55.3 min, Kokoro 45.2 min](../../../../assets/feed/article/audio/on-device-tts-speed.png)
 
 | Engine | Audio | Synthesis | RTF | First sentence | Model load |
 | --- | --- | --- | --- | --- | --- |
@@ -94,6 +98,8 @@ transcriber and the normalization, not the voice, so what matters is how far
 each engine sits **above** the baseline.
 
 ### Results
+
+![Bar charts. Word error rate: macOS baseline 4.09%, Matcha 4.97%, Kokoro 4.00%. Paragraphs above 20% WER: 4, 14 and 9 of 215](../../../../assets/feed/article/audio/on-device-tts-wer.png)
 
 | Engine | WER | vs baseline | Substitutions | Deletions | Insertions | Paragraphs > 20% WER | Skips or hallucinations | Failed | Audio | Synthesis | First-pass WER |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -142,6 +148,8 @@ lexicon in front of the phonemizer.
 
 ### Size
 
+![Bar chart of sizes: Kokoro model 152 MB, Matcha with Vocos 151 MB, runtime SDK 193.5 MB uncompressed and 39.2 MB compressed in git, linked code 38 MB](../../../../assets/feed/article/audio/on-device-tts-size.png)
+
 | Item | Size |
 | --- | --- |
 | Kokoro model (int8, English) | 152 MB |
@@ -165,6 +173,8 @@ model directory, so **every PR run downloaded all 303 MB again**:
 | Another PR, same period | 1 s | 10 s |
 | Another PR, same period | 1 s | 14 s |
 
+![Bar chart of CocoaPods step time per PR run: this change 55, 107 and 125 s; two other PRs 11 and 15 s](../../../../assets/feed/article/audio/on-device-tts-ci.png)
+
 One to two minutes per run, on every PR, for files no PR build used. The fix
 was to fetch the models only in the CI lanes that produce internal builds.
 Ordinary PR builds no longer pay for them.
@@ -183,6 +193,8 @@ run, as above, the bandwidth could exceed the quota by roughly $75 a month.
 
 A rough estimate, not a bill. It assumes 10,000 articles a day, about 6,000
 characters and 5.5 minutes of audio each. Prices are public list prices.
+
+![Bar chart of estimated monthly cost: OpenAI tts-1 $27,000, gpt-4o-mini-tts $25,000, self-hosted Kokoro $600](../../../../assets/feed/article/audio/on-device-tts-cost.png)
 
 | Option | Pricing | Per article | Per month |
 | --- | --- | --- | --- |

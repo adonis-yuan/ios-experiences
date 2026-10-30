@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="776" viewBox="0 0 1080 776" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<rect width="1080" height="776" fill="#fcfcfb"/>
+<text x="60" y="70" font-size="34" font-weight="700" fill="#0b0b0b">Matcha synthesizes ~20× faster, but speaks 22% slower</text>
+<text x="60" y="118" font-size="20" fill="#52514e">Real-time factor (RTF) = synthesis time ÷ audio length. Below 1 is faster than real time.</text>
+<text x="60" y="186" font-size="21" font-weight="700" fill="#0b0b0b">RTF on 6 news sentences, lower is faster</text>
+<line x1="340.0" y1="204" x2="340.0" y2="316" stroke="#e4e3df"/>
+<text x="340.0" y="338" font-size="16" fill="#8a8984" text-anchor="middle">0</text>
+<line x1="565.0" y1="204" x2="565.0" y2="316" stroke="#e4e3df"/>
+<text x="565.0" y="338" font-size="16" fill="#8a8984" text-anchor="middle">0.5</text>
+<line x1="790.0" y1="204" x2="790.0" y2="316" stroke="#e4e3df"/>
+<text x="790.0" y="338" font-size="16" fill="#8a8984" text-anchor="middle">1</text>
+<text x="60" y="237.0" font-size="19" font-weight="600" fill="#0b0b0b">Matcha + Vocos</text>
+<path d="M340,210 H346.53 Q350.53,210 350.53,214 V246 Q350.53,250 346.53,250 H340 Z" fill="#eb6834"/>
+<text x="360.53" y="237.0" font-size="20" font-weight="700" fill="#0b0b0b">0.023</text>
+<text x="60" y="297.0" font-size="19" font-weight="600" fill="#0b0b0b">Kokoro</text>
+<path d="M340,270 H555.15 Q559.15,270 559.15,274 V306 Q559.15,310 555.15,310 H340 Z" fill="#2a78d6"/>
+<text x="569.15" y="297.0" font-size="20" font-weight="700" fill="#0b0b0b">0.487</text>
+<line x1="790.0" y1="198" x2="790.0" y2="316" stroke="#52514e" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="790.0" y="190" font-size="16" fill="#52514e" text-anchor="middle">real time</text>
+<text x="60" y="382" font-size="21" font-weight="700" fill="#0b0b0b">Audio produced from the same 215 paragraphs</text>
+<line x1="340.0" y1="400" x2="340.0" y2="572" stroke="#e4e3df"/>
+<text x="340.0" y="594" font-size="16" fill="#8a8984" text-anchor="middle">0 min</text>
+<line x1="520.0" y1="400" x2="520.0" y2="572" stroke="#e4e3df"/>
+<text x="520.0" y="594" font-size="16" fill="#8a8984" text-anchor="middle">20 min</text>
+<line x1="700.0" y1="400" x2="700.0" y2="572" stroke="#e4e3df"/>
+<text x="700.0" y="594" font-size="16" fill="#8a8984" text-anchor="middle">40 min</text>
+<line x1="880.0" y1="400" x2="880.0" y2="572" stroke="#e4e3df"/>
+<text x="880.0" y="594" font-size="16" fill="#8a8984" text-anchor="middle">60 min</text>
+<text x="60" y="433.0" font-size="19" font-weight="600" fill="#0b0b0b">macOS system voice</text>
+<path d="M340,406 H743.7 Q747.7,406 747.7,410 V442 Q747.7,446 743.7,446 H340 Z" fill="#1baf7a"/>
+<text x="757.7" y="433.0" font-size="20" font-weight="700" fill="#0b0b0b">45.3 min</text>
+<text x="60" y="493.0" font-size="19" font-weight="600" fill="#0b0b0b">Matcha + Vocos</text>
+<path d="M340,466 H833.7 Q837.7,466 837.7,470 V502 Q837.7,506 833.7,506 H340 Z" fill="#eb6834"/>
+<text x="847.7" y="493.0" font-size="20" font-weight="700" fill="#0b0b0b">55.3 min</text>
+<text x="60" y="553.0" font-size="19" font-weight="600" fill="#0b0b0b">Kokoro</text>
+<path d="M340,526 H742.8 Q746.8,526 746.8,530 V562 Q746.8,566 742.8,566 H340 Z" fill="#2a78d6"/>
+<text x="756.8" y="553.0" font-size="20" font-weight="700" fill="#0b0b0b">45.2 min</text>
+<rect x="60" y="618" width="960" height="88" rx="8" fill="#f0efec"/>
+<text x="84" y="658" font-size="20" fill="#0b0b0b">Slower speech means more audio, so more to synthesize, for the same text.</text>
+<text x="84" y="688" font-size="20" fill="#0b0b0b">Benchmark whole articles, not sentences.</text>
+<text x="60" y="746" font-size="16" fill="#8a8984">iOS simulator on an Apple-silicon Mac, 4 threads. Not yet measured on a physical device.</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="736" viewBox="0 0 1080 736" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<rect width="1080" height="736" fill="#fcfcfb"/>
+<text x="60" y="70" font-size="34" font-weight="700" fill="#0b0b0b">Every PR run re-downloaded 303 MB of models</text>
+<text x="60" y="118" font-size="20" fill="#52514e">A CI checkout wiped the model directory. Seconds in the two CocoaPods steps of a PR build.</text>
+<rect x="60" y="158" width="16" height="16" rx="3" fill="#6250d6"/>
+<text x="84" y="172" font-size="17" fill="#52514e">this change, re-downloading models</text>
+<rect x="400" y="158" width="16" height="16" rx="3" fill="#a8a7a1"/>
+<text x="424" y="172" font-size="17" fill="#52514e">other PRs, same period</text>
+<text x="60" y="222" font-size="21" font-weight="700" fill="#0b0b0b">CocoaPods steps per run</text>
+<line x1="340.0" y1="240" x2="340.0" y2="532" stroke="#e4e3df"/>
+<text x="340.0" y="554" font-size="16" fill="#8a8984" text-anchor="middle">0 s</text>
+<line x1="520.0" y1="240" x2="520.0" y2="532" stroke="#e4e3df"/>
+<text x="520.0" y="554" font-size="16" fill="#8a8984" text-anchor="middle">50 s</text>
+<line x1="700.0" y1="240" x2="700.0" y2="532" stroke="#e4e3df"/>
+<text x="700.0" y="554" font-size="16" fill="#8a8984" text-anchor="middle">100 s</text>
+<line x1="880.0" y1="240" x2="880.0" y2="532" stroke="#e4e3df"/>
+<text x="880.0" y="554" font-size="16" fill="#8a8984" text-anchor="middle">150 s</text>
+<text x="60" y="273.0" font-size="19" font-weight="600" fill="#0b0b0b">This change, run 1</text>
+<path d="M340,246 H534.0 Q538.0,246 538.0,250 V282 Q538.0,286 534.0,286 H340 Z" fill="#6250d6"/>
+<text x="548.0" y="273.0" font-size="20" font-weight="700" fill="#0b0b0b">55 s</text>
+<text x="60" y="333.0" font-size="19" font-weight="600" fill="#0b0b0b">This change, run 2</text>
+<path d="M340,306 H721.2 Q725.2,306 725.2,310 V342 Q725.2,346 721.2,346 H340 Z" fill="#6250d6"/>
+<text x="735.2" y="333.0" font-size="20" font-weight="700" fill="#0b0b0b">107 s</text>
+<text x="60" y="393.0" font-size="19" font-weight="600" fill="#0b0b0b">This change, run 3</text>
+<path d="M340,366 H786.0 Q790.0,366 790.0,370 V402 Q790.0,406 786.0,406 H340 Z" fill="#6250d6"/>
+<text x="800.0" y="393.0" font-size="20" font-weight="700" fill="#0b0b0b">125 s</text>
+<text x="60" y="453.0" font-size="19" font-weight="600" fill="#0b0b0b">Another PR</text>
+<path d="M340,426 H375.6 Q379.6,426 379.6,430 V462 Q379.6,466 375.6,466 H340 Z" fill="#a8a7a1"/>
+<text x="389.6" y="453.0" font-size="20" font-weight="700" fill="#0b0b0b">11 s</text>
+<text x="60" y="513.0" font-size="19" font-weight="600" fill="#0b0b0b">Another PR</text>
+<path d="M340,486 H390.0 Q394.0,486 394.0,490 V522 Q394.0,526 390.0,526 H340 Z" fill="#a8a7a1"/>
+<text x="404.0" y="513.0" font-size="20" font-weight="700" fill="#0b0b0b">15 s</text>
+<rect x="60" y="578" width="960" height="88" rx="8" fill="#f0efec"/>
+<text x="84" y="618" font-size="20" fill="#0b0b0b">Fix: fetch the models only in the CI lanes that build internal releases.</text>
+<text x="84" y="648" font-size="20" fill="#0b0b0b">Ordinary PR builds stopped paying for them.</text>
+<text x="60" y="706" font-size="16" fill="#8a8984">PR builds on hosted CI</text>
+</svg>
