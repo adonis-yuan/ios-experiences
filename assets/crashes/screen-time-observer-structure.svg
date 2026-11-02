@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="600" viewBox="0 0 1060 600" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="aha" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#b06a00"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monob{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;font-weight:700;fill:#1b2430}
+    .k{font-size:12.5px;fill:#26303c}
+    .ks{font-size:11.5px;fill:#5d6875}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+    .lnd{stroke:#b06a00;stroke-width:1.5;stroke-dasharray:6 4;fill:none;marker-end:url(#aha)}
+  </style>
+  <rect width="1060" height="600" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">One observer, two kinds of request, one update queue</text>
+  <text class="sub" x="34" y="55">Both triggers converge on the same queue, so whether that queue is serial decides whether replies can overlap.</text>
+
+  <rect x="34" y="132" width="250" height="52" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="kb" x="159" y="153" text-anchor="middle">Startup request</text>
+  <text class="ks" x="159" y="172" text-anchor="middle">startObserving asks once, immediately</text>
+
+  <rect x="34" y="212" width="250" height="52" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="kb" x="159" y="233" text-anchor="middle">Settings-changed notification</text>
+  <text class="ks" x="159" y="252" text-anchor="middle">Darwin notify → ask again, every time</text>
+
+  <rect x="330" y="78" width="340" height="340" rx="8" fill="none" stroke="#9aa4b0" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="monob" x="500" y="100" text-anchor="middle">STScreenTimeConfigurationObserver</text>
+  <text class="ks" x="500" y="118" text-anchor="middle">one per WKWebView in a window loading http(s)</text>
+
+  <rect x="365" y="132" width="270" height="52" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="monob" x="500" y="153" text-anchor="middle">_requestConfiguration</text>
+  <text class="ks" x="500" y="172" text-anchor="middle">both triggers call the same method</text>
+
+  <rect x="365" y="232" width="270" height="52" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="kb" x="500" y="253" text-anchor="middle">XPC connection (exactly one)</text>
+  <text class="ks" x="500" y="272" text-anchor="middle">created in init, its queue set to the update queue</text>
+
+  <rect x="365" y="340" width="270" height="52" rx="5" fill="#fdf3e3" stroke="#dcbc86" stroke-width="2"/>
+  <text class="kb" x="500" y="361" text-anchor="middle">Update queue</text>
+  <text class="ks" x="500" y="380" text-anchor="middle">replies and notify callbacks both run here</text>
+
+  <rect x="770" y="232" width="250" height="52" rx="5" fill="#eef1f5" stroke="#c4ccd6"/>
+  <text class="kb" x="895" y="253" text-anchor="middle">ScreenTimeAgent</text>
+  <text class="ks" x="895" y="272" text-anchor="middle">system daemon: child restrictions on?</text>
+  <text class="ks" x="895" y="312" text-anchor="middle">Each observer has its own connection,</text>
+  <text class="ks" x="895" y="328" text-anchor="middle">so separate observers never collide.</text>
+
+  <path class="ln" d="M284,158 L363,158"/>
+  <path class="lnd" d="M284,238 L310,238 L310,170 L363,170"/>
+  <path class="ln" d="M500,184 L500,230"/>
+  <path class="ln" d="M635,250 L768,250"/>
+  <text class="ks" x="702" y="243" text-anchor="middle">2 requests</text>
+  <path class="ln" d="M770,268 L637,268"/>
+  <text class="ks" x="702" y="285" text-anchor="middle">2 replies</text>
+  <path class="ln" d="M500,284 L500,338"/>
+  <text class="ks" x="510" y="316">dispatch each reply</text>
+
+  <path class="ln" d="M500,392 L500,440 L276,440 L276,464"/>
+  <path class="ln" d="M500,440 L784,440 L784,464"/>
+
+  <rect x="34" y="466" width="484" height="58" rx="6" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="50" y="488">iOS 26.2–26.4: a global concurrent queue</text>
+  <text class="k" x="50" y="508">Two replies can run on two threads at once → crash.</text>
+
+  <rect x="542" y="466" width="484" height="58" rx="6" fill="#e3f1e6" stroke="#8fbf9a"/>
+  <text class="kb" x="558" y="488">iOS 26.5 and the workaround: one shared serial queue</text>
+  <text class="k" x="558" y="508">Replies run one after another.</text>
+
+  <rect x="34" y="540" width="992" height="40" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="k" x="50" y="565">What the picture is for: the race needs no second observer; one observer's own two requests are enough.</text>
+</svg>
