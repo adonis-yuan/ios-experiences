@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="640" viewBox="0 0 1060 640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#3c4653"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c0392b"/></marker>
+    <marker id="ahg" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#2f7d4f"/></marker>
+  </defs>
+  <style>
+    .t{font-size:19px;font-weight:700;fill:#1b2430}
+    .sub{font-size:12.5px;fill:#5d6875}
+    .mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#26303c}
+    .monor{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:#a5281b}
+    .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px}
+    .k{font-size:12.5px;fill:#26303c}
+    .ks{font-size:11.5px;fill:#5d6875}
+    .kb{font-size:12.5px;font-weight:700;fill:#1b2430}
+    .ln{stroke:#3c4653;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+    .lnr{stroke:#c0392b;stroke-width:1.8;fill:none;marker-end:url(#ahr)}
+    .lng{stroke:#2f7d4f;stroke-width:1.5;stroke-dasharray:6 4;fill:none;marker-end:url(#ahg)}
+  </style>
+  <rect width="1060" height="640" fill="#fbfcfd"/>
+
+  <text class="t" x="34" y="34">From a captured var to a compiler crash (Swift 6.3.x)</text>
+  <text class="sub" x="34" y="55">One empty optional, dereferenced while wording a warning. What it reads decides whether you get a wrong message or a SIGSEGV.</text>
+
+  <rect x="34" y="82" width="230" height="78" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="kb" x="149" y="104" text-anchor="middle">1  Main-actor closure</text>
+  <text class="kb" x="149" y="121" text-anchor="middle">captures a local var</text>
+  <text class="mono" x="149" y="144" text-anchor="middle">SIL: value goes in a box</text>
+
+  <rect x="290" y="82" width="230" height="78" rx="5" fill="#e6eef7" stroke="#a9c2dc"/>
+  <text class="kb" x="405" y="104" text-anchor="middle">2  findClosureUse walks</text>
+  <text class="kb" x="405" y="121" text-anchor="middle">the use chain</text>
+  <text class="ks" x="405" y="144" text-anchor="middle">via project_box: further than a let</text>
+
+  <rect x="546" y="82" width="230" height="78" rx="5" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="661" y="104" text-anchor="middle">3  Lands in a SIL function</text>
+  <text class="kb" x="661" y="121" text-anchor="middle">with no isolation set</text>
+  <text class="monor" x="661" y="144" text-anchor="middle">getActorIsolation() → nullopt</text>
+
+  <rect x="802" y="82" width="224" height="78" rx="5" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="914" y="104" text-anchor="middle">4  * on the empty optional</text>
+  <text class="k" x="914" y="124" text-anchor="middle">reads uninitialized stack</text>
+  <text class="k" x="914" y="142" text-anchor="middle">memory as ActorIsolation</text>
+
+  <path class="ln" d="M264,121 L288,121"/>
+  <path class="ln" d="M520,121 L544,121"/>
+  <path class="lnr" d="M776,121 L800,121"/>
+  <text class="tag" x="661" y="178" text-anchor="middle" fill="#8a5a00">INFERRED FROM SOURCE, NOT STEPPED IN A DEBUGGER</text>
+
+  <path class="lnr" d="M914,160 L914,206 L660,206 L660,224"/>
+  <rect x="400" y="226" width="520" height="50" rx="5" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="kb" x="660" y="246" text-anchor="middle">5  printForDiagnostics formats the garbage</text>
+  <text class="ks" x="660" y="264" text-anchor="middle">to fill in "captured by a … closure"</text>
+
+  <path class="ln" d="M660,276 L660,296 L210,296 L210,318"/>
+  <path class="ln" d="M660,296 L660,318"/>
+  <path class="lnr" d="M660,296 L900,296 L900,318"/>
+
+  <rect x="34" y="320" width="352" height="82" rx="5" fill="#fdf3e3" stroke="#dcbc86"/>
+  <text class="kb" x="210" y="342" text-anchor="middle">Looks like a plain enum case</text>
+  <text class="mono" x="210" y="362" text-anchor="middle">nonisolated, @isolated(any), …</text>
+  <text class="k" x="210" y="384" text-anchor="middle">wrong text, build passes (most builds)</text>
+
+  <rect x="410" y="320" width="300" height="82" rx="5" fill="#fbe9e7" stroke="#d99a92"/>
+  <text class="kb" x="560" y="342" text-anchor="middle">Decoded as a global actor</text>
+  <text class="monor" x="560" y="362" text-anchor="middle">global actor '&lt;null&gt;'</text>
+  <text class="k" x="560" y="384" text-anchor="middle">null type pointer: one step from a crash</text>
+
+  <rect x="734" y="320" width="292" height="82" rx="5" fill="#f6d5d0" stroke="#c0392b" stroke-width="2"/>
+  <text class="kb" x="880" y="342" text-anchor="middle">Global actor, wild pointer</text>
+  <text class="monor" x="880" y="362" text-anchor="middle">swift-frontend SIGSEGV</text>
+  <text class="k" x="880" y="384" text-anchor="middle">build fails; a rerun usually passes</text>
+
+  <rect x="34" y="440" width="484" height="78" rx="6" fill="#e3f1e6" stroke="#8fbf9a"/>
+  <text class="kb" x="50" y="462">Workaround: capture by value</text>
+  <text class="mono" x="50" y="482">Task { @MainActor [weak self, n] in … }</text>
+  <text class="k" x="50" y="503">The closure holds a copy, so step 2 stops at the closure function.</text>
+
+  <rect x="542" y="440" width="484" height="78" rx="6" fill="#e3f1e6" stroke="#8fbf9a"/>
+  <text class="kb" x="558" y="462">Fix: Swift 6.4</text>
+  <text class="mono" x="558" y="482">ActorIsolation getActorIsolation() const</text>
+  <text class="k" x="558" y="503">Non-optional, "unspecified" when unset; the * is gone.</text>
+
+  <rect x="34" y="546" width="992" height="58" rx="6" fill="#f4f6f8" stroke="#c4ccd6"/>
+  <text class="k" x="50" y="569">What the picture is for: the same bug prints a wrong warning in most builds and crashes the compiler in a few.</text>
+  <text class="k" x="50" y="589">An explanation that changes from build to build on the same line is the cheap signal to look for.</text>
+</svg>
